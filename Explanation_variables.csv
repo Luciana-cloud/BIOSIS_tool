@@ -1,0 +1,37 @@
+Tier,Criterium,Explanation
+Pertinence,,
+,CR_functional,The degree by which an actor or process method provides information about the functional capacity of a soil to deliver the Carbon management and climate regulation soil function.
+,DS_functional,The degree by which an actor or process method provides information about the functional capacity of a soil to deliver Disease and Pest management soil function.
+,NC_functional,The degree by which an actor or process method provides information about the functional capacity of a soil to deliver the Nutrient Cycling soil function.
+,WR_functional,The degree by which an actor or process method provides information about the functional capacity of a soil to deliver Water Regulation and Purification soil function.
+,MF_functional,The degree by which an actor or process method provides information about the functional capacity of a soil to deliver all the four soil functions.
+,CR_freq,Number of occurrences of an actor or a process within the Carbon management and climate regulation soil  function model. 
+,NC_freq,Number of occurrences of an actor or a process within the Disease and Pest management soil function model. 
+,WR_freq,Number of occurrences of an actor or a process within the Water regulation and purification soil function model. 
+,DS_freq,Number of occurrences of an actor or a process within the Disease and Pest management soil function model. 
+,MF_freq,Number of occurrences of an actor or a process within all the four soil function models. 
+,CR_rel,"Expert-opinion score on the relevance of the actor to the delivery of a process. If actors contributed to multiple processes, scores were averaged to obtain a relevance score at the  Carbon management and climate regulation  function level. "
+,NC_rel,"Expert-opinion score on the relevance of the actor to the delivery of a process. If actors contributed to multiple processes, scores were averaged to obtain a relevance score at the Nutrient Cycling function level. "
+,WR_rel,"Expert-opinion score on the relevance of the actor to the delivery of a process. If actors contributed to multiple processes, scores were averaged to obtain a relevance score at the Water regulation and purification function level. "
+,DS_rel,"Expert-opinion score on the relevance of the actor to the delivery of a process. If actors contributed to multiple processes, scores were averaged to obtain a relevance score at the Disease and Pest management function level. "
+,MF_rel,"Expert-opinion score on the relevance of the actor to the delivery of a process. If actors contributed to multiple processes, scores were averaged to obtain a relevance score at the four soil function level. "
+Applicability,,
+,Applicability_agri,Applicability of method to agricultural ecosystems
+,Applicability_forest,Applicability of method to forest ecosystems
+,Applicability_grass,Applicability of method to grassland ecosystems
+Technical ,,
+,Throughput,The amount of samples that can be processed per week
+,Storage,Allowed storage time before post-sampling measures (laboratory analysis)
+,Collection_time,The number of sampling times (field visits) needed 
+,Collection_space,Number of samples needed per location or treatment
+,Archivability,Potential for long-term storage as dried or frozen sample
+,Sample_amount,Soil mass needed for sampling and determination
+,Cost_per_sample,"Labour, hardware and consumable costs per sample"
+,Lab_use,The level of skill required to realise the method in the laboratory
+,Data_process,The level of skill  required to process and interpret the data 
+,Reference,Option to include or develop reference material
+,Reproducibility,Inherent ability of method to yield reproducible results
+,Deployment,Level of method development
+,Infrastructure,The state of regional infrastructure to realise the assessment
+Scores for the criteria,,
+,"1 to 5 ( 1 = very low, 2 = low, 3 = average, 4 = high, 5 = very high in terms of importance).",
