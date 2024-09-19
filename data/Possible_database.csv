@@ -1,0 +1,133 @@
+function;land_use;subfunction;process;parameter_type;parameter_name
+climate regulation;agriculture;decomposition;fragmentation;biological;herbivorous acari
+climate regulation;agriculture;decomposition;fragmentation;biological;earthworm
+climate regulation;agriculture;decomposition;fragmentation;biological;enchytraeid
+climate regulation;agriculture;decomposition;fragmentation;biological;isopod
+climate regulation;agriculture;decomposition;fragmentation;biological;milipedes
+climate regulation;agriculture;decomposition;fragmentation;biological;enzymes
+climate regulation;agriculture;decomposition;fragmentation;chemical;substrate quality
+climate regulation;agriculture;decomposition;fragmentation;physical;temperature
+climate regulation;agriculture;decomposition;fragmentation;physical;oxygen supply
+climate regulation;agriculture;decomposition;fragmentation;physical;water content
+climate regulation;agriculture;decomposition;fragmentation;environmental;climate
+climate regulation;agriculture;decomposition;soil respiration;biological;bacteria
+climate regulation;agriculture;decomposition;soil respiration;biological;fungi
+climate regulation;agriculture;decomposition;soil respiration;biological;protozoa
+climate regulation;agriculture;decomposition;soil respiration;biological;all soil fauna
+climate regulation;agriculture;decomposition;soil respiration;chemical;soil pH
+climate regulation;agriculture;decomposition;soil respiration;chemical;nutrient availability
+climate regulation;agriculture;decomposition;soil respiration;chemical;oxygen supply
+climate regulation;agriculture;decomposition;soil respiration;chemical;soil organic matter
+climate regulation;agriculture;decomposition;soil respiration;physical;temperature
+climate regulation;agriculture;decomposition;soil respiration;physical;water content
+climate regulation;agriculture;decomposition;soil respiration;physical;clay content
+climate regulation;agriculture;decomposition;soil respiration;physical;bulk density
+climate regulation;agriculture;decomposition;soil respiration;physical;soil porosity
+climate regulation;agriculture;decomposition;soil respiration;environmental;climate
+climate regulation;agriculture;decomposition;microbial grazing;biological;acari
+climate regulation;agriculture;decomposition;microbial grazing;biological;collembola
+climate regulation;agriculture;decomposition;microbial grazing;biological;nematoda
+climate regulation;agriculture;decomposition;microbial grazing;biological;protozoa
+climate regulation;agriculture;decomposition;microbial grazing;chemical;soil pH
+climate regulation;agriculture;decomposition;microbial grazing;physical;soil porosity
+climate regulation;agriculture;decomposition;microbial grazing;physical;water content
+climate regulation;agriculture;decomposition;litter photodegradation;chemical;litter quality
+climate regulation;agriculture;decomposition;litter photodegradation;physical;UVB radiation
+climate regulation;agriculture;decomposition;litter photodegradation;environmental;Moisture
+climate regulation;agriculture;decomposition;Methanogenesis;biological;methanogenic archaea
+climate regulation;agriculture;decomposition;Methanogenesis;chemical;soil pH
+climate regulation;agriculture;decomposition;Methanogenesis;chemical;soil organic carbon
+climate regulation;agriculture;decomposition;Methanogenesis;chemical;oxygen supply
+climate regulation;agriculture;decomposition;Methanogenesis;physical;temperature
+climate regulation;agriculture;decomposition;Methanogenesis;physical;water table depth
+climate regulation;agriculture;decomposition;Methanogenesis;physical;texture
+climate regulation;agriculture;decomposition;Methanogenesis;physical;porosity
+climate regulation;agriculture;decomposition;Methanogenesis;environmental;rainfall events
+climate regulation;agriculture;organic matter translocation;erosion;;
+climate regulation;agriculture;organic matter translocation;lateral translocation;;
+climate regulation;agriculture;organic matter translocation;lessivage;;
+climate regulation;agriculture;organic matter translocation;organic matter leaching;;
+climate regulation;agriculture;organic matter translocation;bioturbation;;
+climate regulation;agriculture;organic matter translocation;carbonate dissolution;chemical;soil pH
+climate regulation;agriculture;organic matter translocation;carbonate dissolution;physical;particle size
+climate regulation;agriculture;organic matter translocation;carbonate dissolution;physical;Moisture
+climate regulation;agriculture;organic matter translocation;carbonate dissolution;physical;Mineralogy
+climate regulation;agriculture;organic matter translocation;exudation;;
+climate regulation;agriculture;organic matter translocation;food-web accumulation;;
+climate regulation;agriculture;organic matter translocation;Aggregation;;
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;biological;bacteria
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;biological;fungi
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;biological;plant roots
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;chemical;CEC
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;chemical;organic matter type
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;chemical;organic matter content
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;physical;soil texture
+climate regulation;agriculture;organic matter stabilization;organic matter binding/fixation;physical;mineralogy
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;bacteria
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;fungi
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;root
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;earthworm
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;enchytraeid
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;termites
+climate regulation;agriculture;organic matter stabilization;aggregate formation;biological;ants
+climate regulation;agriculture;organic matter stabilization;aggregate formation;chemical;soil pH
+climate regulation;agriculture;organic matter stabilization;aggregate formation;chemical;CEC
+climate regulation;agriculture;organic matter stabilization;aggregate formation;chemical;organic matter type
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;Mineralogy
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;clay content
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;soil hardness
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;soil temperature
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;soil water content
+climate regulation;agriculture;organic matter stabilization;aggregate formation;physical;porosity
+climate regulation;agriculture;organic matter stabilization;aggregate formation;environmental;climate? 
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;bacteria
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;fungi
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;root
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;earthworm
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;enchytraeid
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;termites
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;biological;ants
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;chemical;Ca:Mg ratio
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;chemical;CEC
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;chemical;soil pH
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;physical;soil temperature
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;physical;porosity
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;physical;clay content
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;physical;mineralogy
+climate regulation;agriculture;organic matter stabilization;aggregate stabilisation;environmental;climate? 
+climate regulation;agriculture;organic matter stabilization;accumulation of microbial necromass;;
+climate regulation;agriculture;organic matter stabilization;nutrient priming;;
+climate regulation;agriculture;organic matter stabilization;exudation;;
+climate regulation;agriculture;biochemical transformations;methanotrophy;biological;Methanotrophic archaea
+climate regulation;agriculture;biochemical transformations;methanotrophy;biological;Methanotrophic bacteria
+climate regulation;agriculture;biochemical transformations;methanotrophy;chemical;oxygen supply
+climate regulation;agriculture;biochemical transformations;methanotrophy;physical;soil texture
+climate regulation;agriculture;biochemical transformations;methanotrophy;physical;soil moisture
+climate regulation;agriculture;biochemical transformations;nitrification;biological;Nitrifying archaea
+climate regulation;agriculture;biochemical transformations;nitrification;biological;Nitrifying bacteria
+climate regulation;agriculture;biochemical transformations;nitrification;biological;Nitrifying fungi
+climate regulation;agriculture;biochemical transformations;nitrification;chemical;soil organic carbon
+climate regulation;agriculture;biochemical transformations;nitrification;chemical;soil pH
+climate regulation;agriculture;biochemical transformations;nitrification;chemical;nitrate content
+climate regulation;agriculture;biochemical transformations;nitrification;physical;soil structure
+climate regulation;agriculture;biochemical transformations;nitrification;environmental;rainfall events? 
+climate regulation;agriculture;biochemical transformations;denitrification;biological;denitrifying archaea
+climate regulation;agriculture;biochemical transformations;denitrification;biological;denitrifying bacteria
+climate regulation;agriculture;biochemical transformations;denitrification;biological;denitrifying fungi
+climate regulation;agriculture;biochemical transformations;denitrification;chemical;oxygen supply
+climate regulation;agriculture;biochemical transformations;denitrification;chemical;redox state
+climate regulation;agriculture;biochemical transformations;denitrification;chemical;soil organic carbon
+climate regulation;agriculture;biochemical transformations;denitrification;chemical;soil pH
+climate regulation;agriculture;biochemical transformations;denitrification;chemical;nitrate content
+climate regulation;agriculture;biochemical transformations;denitrification;physical;texture
+climate regulation;agriculture;biochemical transformations;denitrification;physical;soil moisture
+climate regulation;agriculture;biochemical transformations;denitrification;physical;pore distribution
+climate regulation;agriculture;biochemical transformations;n volitilization;chemical;soil pH
+climate regulation;agriculture;biochemical transformations;n volitilization;physical;soil moisture
+climate regulation;agriculture;biochemical transformations;n volitilization;physical;pore structure
+climate regulation;agriculture;biochemical transformations;n volitilization;physical;soil temperature
+climate regulation;agriculture;biochemical transformations;mineral weathering;biological;root
+climate regulation;agriculture;biochemical transformations;mineral weathering;chemical;soil pH
+climate regulation;agriculture;biochemical transformations;mineral weathering;chemical;redox state
+climate regulation;agriculture;biochemical transformations;mineral weathering;physical;Mineralogy
+climate regulation;agriculture;biochemical transformations;mineral weathering;environmental;freeze-thaw cycles
