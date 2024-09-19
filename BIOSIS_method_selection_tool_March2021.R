@@ -17,6 +17,8 @@ wd <- getwd()
 
 ## load libraries
 library(tidyverse) 
+library(httr)
+library(readxl)
 
 ## load files
 sieve <- read.csv(file = paste0(wd, "/Supplementary information_Methods_scores.csv")) # this is the method data file that you can download from the data respository
