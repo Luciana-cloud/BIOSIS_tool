@@ -1,29 +1,24 @@
-#########################################################################################################################################################
-##################################### BIOSIS method selection tool  #####################################################################################
-#########################################################################################################################################################
+# New Tests ideas
 
-## Manuscript: A flexible selection tool for the inclusion of soil biology methods in the assessment of soil multi-functionality
-## Authors: Marie Zwetsloot, Giulia Bongiorno, Janna Barel, Paolo Di Lonardo, Rachel Creamer
-## Date: 10/03/2021
+# Calling packages----
 
-
-##########
-### STEP 0: Clean global environment, set working directory, load files & libraries
-
-## clean global environment and set working directory
-rm(list=ls())
-setwd("C:/luciana_datos/Wageningen/Benchmark/BIOSIS_tool") # set working directory to the folder where you have your method files and weighting factors saved
-wd <- getwd()
-
-## load libraries
 library(tidyverse) 
 library(httr)
 library(readxl)
+library(googledrive)
+library(googlesheets4)
+library(readr)
 
 ## load files
-sieve <- read.csv(file = paste0(wd, "/Supplementary information_Methods_scores.csv")) # this is the method data file that you can download from the data respository
-wf <- read.csv(file = paste0(wd, "/Weighting_factors.csv")) # the user can adjust these weighting factors manually to indicate your preferences for technical criteria 
+sieve = read_sheet("https://docs.google.com/spreadsheets/d/1OZctzgF-PNKXvkPmHyvbgMbN20jdieuJlSPt_9QI8v8/edit?gid=1568227482#gid=1568227482")
+wf    = read_sheet("https://docs.google.com/spreadsheets/d/1sxE-pn_d9mBh4My8fEpMqESQw_2J3dnU075G0zSE36I/edit?gid=1483737642#gid=1483737642") # the user can adjust these weighting factors manually to indicate your preferences for technical criteria 
 
+# Create the new database
+Possible_database = read_delim("Possible_database.csv", 
+                                delim = ";", escape_double = FALSE, trim_ws = TRUE)
+sheet_write(Possible_database,
+            ss = "https://docs.google.com/spreadsheets/d/1sSCeIfPim5i8X93UdUMqgICKzxpJ7gJtia1GIaiqK-k/edit?gid=0#gid=0",
+            sheet = "database")
 
 ##########
 ### STEP 1: Select user-preferences
@@ -200,7 +195,7 @@ if ("CR" %in% functions){
   report_cr$CR_rank <- as.character(report_cr$CR_rank)
   
   report_cr$CR_rank[report_cr$CR_aggregated == 0] <- "eliminated"
-
+  
 } else {
   print ("CR aggregation sieve is not active")
 }
@@ -211,13 +206,13 @@ if ("DS" %in% functions){
   sieve$DS_aggregated <- sieve$DS_pertinence * sieve$App * sieve$Technical
   report_ds <- select(sieve, Method_name, Method_type, Name, Related_process, DS_aggregated)
   report_ds <- arrange(report_ds, (desc(DS_aggregated)))
-
+  
   report_ds <- arrange(report_ds, (desc(DS_aggregated)))
   report_ds$DS_rank <- factor(report_ds$DS_aggregated) # assign same rank to methods with same aggregated score 
   levels(report_ds$DS_rank) <- as.character(seq(from = length(levels(report_ds$DS_rank)), to = 1, by = -1)) 
   report_ds$DS_rank <- as.character(report_ds$DS_rank)
   
-   report_ds$DS_rank[report_ds$DS_aggregated == 0] <- "eliminated"
+  report_ds$DS_rank[report_ds$DS_aggregated == 0] <- "eliminated"
 } else {
   print ("DS aggregation sieve is not active")
 }
@@ -228,13 +223,13 @@ if ("NC" %in% functions){
   sieve$NC_aggregated <- sieve$NC_pertinence * sieve$App * sieve$Technical
   report_nc <- select(sieve, Method_name, Method_type, Name, Related_process, NC_aggregated)
   report_nc <- arrange(report_nc, (desc(NC_aggregated)))
-
+  
   report_nc <- arrange(report_nc, (desc(NC_aggregated)))
   report_nc$NC_rank <- factor(report_nc$NC_aggregated) # assign same rank to methods with same aggregated score 
   levels(report_nc$NC_rank) <- as.character(seq(from = length(levels(report_nc$NC_rank)), to = 1, by = -1)) 
   report_nc$NC_rank <- as.character(report_nc$NC_rank)
   
-    report_nc$NC_rank[report_nc$NC_aggregated == 0] <- "eliminated"
+  report_nc$NC_rank[report_nc$NC_aggregated == 0] <- "eliminated"
 } else {
   print ("NC aggregation sieve is not active")
 }
@@ -255,35 +250,5 @@ if ("WR" %in% functions){
 } else {
   print ("WR aggregation sieve is not active")
 }
-
-
-##########
-### STEP 4: Save reports
-
-## save individual reports per function
-
-if ("CR" %in% functions){
-  write.csv(report_cr, file = paste0(wd, "/Report_sieve_CR_", ecosystem, "_", Sys.Date(),".csv"), row.names = FALSE)
-  }
-
-if ("DS" %in% functions){
-  write.csv(report_ds, file = paste0(wd, "/Report_sieve_DS_", ecosystem, "_", Sys.Date(),".csv"), row.names = FALSE)
-}
-
-if ("NC" %in% functions){
-  write.csv(report_nc, file = paste0(wd, "/Report_sieve_NC_", ecosystem, "_", Sys.Date(),".csv"), row.names = FALSE)
-}
-
-if ("WR" %in% functions){
-  write.csv(report_wr, file = paste0(wd, "/Report_sieve_WR_", ecosystem, "_", Sys.Date(),".csv"), row.names = FALSE)
-  
-}
-
-
-## save detailed report
-# this report contains all scores (including tier scores and aggregated scores) for all functions the user is interested in. 
-
-write.csv(sieve, file = paste0(wd, "/Detailed_output_logical_sieve_", paste(functions, collapse = ""), 
-                                "_", "_", ecosystem, "_", Sys.Date(),".csv"), row.names = FALSE)
 
 
