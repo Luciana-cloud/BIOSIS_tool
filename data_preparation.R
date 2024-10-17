@@ -4,8 +4,11 @@ library(tidyverse)
 library(plyr)
 library(googledrive)
 library(googlesheets4)
+<<<<<<< HEAD
 library(readxl)
 library(xlsx)
+=======
+>>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
 
 # Data Preparation----
 
@@ -36,6 +39,7 @@ sheet_write(AGRI_CR,
             ss = "https://docs.google.com/spreadsheets/d/126qDjQEnFkigcg-71qX0Ig9JXhIjpzlx8-Vs8O8vSzI/edit?gid=0#gid=0",
             sheet = "agri_CR")
 
+<<<<<<< HEAD
 # Unique parameters
 
 # Chemical
@@ -52,4 +56,6 @@ write.csv(physical,'C:/Users/lucia/OneDrive - Wageningen University & Research/W
 enviroms = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Albert_Jan_Internship/working_document.xlsx", sheet = "environmental")
 envirom  = as.data.frame(unique(enviroms$parameter_name))
 write.csv(envirom,'C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Albert_Jan_Internship/support_data/environmental.csv')
+=======
+>>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
 
