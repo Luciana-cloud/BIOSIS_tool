@@ -1,46 +1,103 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
 ## Biosis 2.0
 
-This tool expands on the work of Zwetsloot et al., 2021 to incorporate the following changes:
+This tool expands on the work of Zwetsloot et al., 2021 to incorporate
+the following changes:
 
-1. Ranking of physicochemical and environmental parameters.
-2. Effects of scale on the ranking of the parameters.
-3. Effects of the stakeholder's perspective on the importance of soil functions. 
-4. Different land uses (forest and urban).
+1.  Ranking of physicochemical and environmental parameters (in
+    progress).
+2.  Effects of scale on the ranking of the parameters (example is
+    implemented).
+3.  Effects of the stakeholder's perspective on the importance of soil
+    functions (example is implemented).
+4.  Different land uses (forest and urban) (in progress).
 
-Creators:
-M.J. Zwetsloot, Soil biology Group, Wageningen University, Wageningen, The Netherlands
-G. Bongiorno, Soil biology Group, Wageningen University, Wageningen, The Netherlands
+### Creators:
 
-Contributors:
-J.M. Barel, Laboratoire Ecologie Fonctionnelle et Environnement, Université de Toulouse, CNRS, Toulouse, France
-D.P. Di Lonardo, Soil biology Group, Wageningen University, Wageningen, The Netherlands
-R.E. Creamer, Soil biology Group, Wageningen University, Wageningen, The Netherlands
-L. Chavez Rodriguez, Soil biology Group, Wageningen University, Wageningen, The Netherlands
-C. Vazquez Martin, Soil biology Group, Wageningen University, Wageningen, The Netherlands
+-   M.J. Zwetsloot, Soil biology Group, Wageningen University,
+    Wageningen, The Netherlands
 
-Related publication:
-Zwetsloot et al., 2021, Designing a flexible method selection tool for the inclusion of soil biology measurements in the assessment of soil multi-functionality (in press)
+-   G. Bongiorno, Soil biology Group, Wageningen University, Wageningen,
+    The Netherlands
+
+### Contributors:
+
+-   J.M. Barel, Laboratoire Ecologie Fonctionnelle et Environnement,
+    Université de Toulouse, CNRS, Toulouse, France
+
+-   D.P. Di Lonardo, Soil biology Group, Wageningen University,
+    Wageningen, The Netherlands
+
+-   R.E. Creamer, Soil biology Group, Wageningen University, Wageningen,
+    The Netherlands
+
+-   L. Chavez Rodriguez, Soil biology Group, Wageningen University,
+    Wageningen, The Netherlands
+
+-   C. Vazquez Martin, Soil biology Group, Wageningen University,
+    Wageningen, The Netherlands
+
+### Related publication:
+
+Zwetsloot et al., 2021, Designing a flexible method selection tool for
+the inclusion of soil biology measurements in the assessment of soil
+multi-functionality (in press)
 
 This dataset contains the following files:
-- Original code: BIOSIS_method_selection_tool_March2021.R
-- Modified code: test_file.R
-- File to translate the data from the cognitive models to the desired format: data_preparation.R
--csv file with scoring of the soil biological methods that is used with the R script: 'Supplementary information_Methods_scores'.
--csv file with weighting factors: 'Weighting_factors'. In this document the weighting factors are all set to 1. In the R script 'BIOSIS_method_selection_tool_March2021'
-is explained that users can adjust these weighting factors manually to indicate the importance of different technical criteria to their assessment program. 
--excel file with methods references: 'Supplementary information Methods references'. These references were used to give the scores present in the file 'Supplementary information_Methods_scores'
--csv file with explanation of the variables contained in the files: 'Supplementary information_Methods_scores' and 'Weighting_factors'.
 
-Explanation of variables:
-The variables used in the files 'Supplementary information_Methods_scores' and 'Weighting_factors' are explained in the csv file 'Explanation_variables'.
+-   Original code: BIOSIS_method_selection_tool_March2021.R
 
-Methods, materials, and software:
-For a complete description of the methods used to collect and generate the data and the R script we refer to the publication 
-Zwetsloot et al., 2021. 'Designing a flexible method selection tool for the inclusion of soil biology measurements in the assessment of soil multi-functionality'.
+-   Modified code: test_file.R
 
-Access:
-Zwetsloot et al., 2021. 'Designing a flexible method selection tool for the inclusion of soil biology measurements in the assessment of soil multi-functionality' is published.
+-   File to translate the data from the cognitive models to the desired
+    format: data_preparation.R
 
-This dataset is published under the CC BY (Attribution) license.
-This license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, so long as attribution is given to the creator.
+-   Data to run the original tool: data folder
 
+    -   csv file with scoring of the soil biological methods that is
+        used with the R script: 'Supplementary
+        information_Methods_scores'.
+
+    -   csv file with weighting factors: 'Weighting_factors'. In this
+        document the weighting factors are all set to 1. In the R script
+        'BIOSIS_method_selection_tool_March2021' is explained that users
+        can adjust these weighting factors manually to indicate the
+        importance of different technical criteria to their assessment
+        program.
+
+    -   excel file with methods references: 'Supplementary information
+        Methods references'. These references were used to give the
+        scores present in the file 'Supplementary
+        information_Methods_scores'
+
+    -   csv file with explanation of the variables contained in the
+        files: 'Supplementary information_Methods_scores' and
+        'Weighting_factors'.
+
+-   Data for the current version of the Biosis tool is temporarily
+    stored in Google Drive.
+
+### Explanation of variables:
+
+The variables used in the files 'Supplementary
+information_Methods_scores' and 'Weighting_factors' are explained in the
+csv file 'Explanation_variables'.
+
+### Methods, materials, and software:
+
+For a complete description of the methods used to collect and generate
+the data and the R script we refer to the publication:
+
+Zwetsloot et al., 2021. 'Designing a flexible method selection tool for
+the inclusion of soil biology measurements in the assessment of soil
+multi-functionality'.
+
+*This dataset is published under the CC BY (Attribution) license. This
+license allows reusers to distribute, remix, adapt, and build upon the
+material in any medium or format, so long as attribution is given to the
+creator*.

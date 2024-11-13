@@ -10,11 +10,9 @@ library(googlesheets4)
 library(readr)
 
 ## load files
-<<<<<<< HEAD
+
 sieve = read_sheet("https://docs.google.com/spreadsheets/d/1OZctzgF-PNKXvkPmHyvbgMbN20jdieuJlSPt_9QI8v8/edit?gid=1568227482#gid=1568227482")
-=======
 sieve = read_sheet("https://docs.google.com/spreadsheets/d/14cQEM-fn7eUfAlIej2csq8ICRzKEnD_e2KdGTUDnk8c/edit?gid=1568227482#gid=1568227482")
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
 wf    = read_sheet("https://docs.google.com/spreadsheets/d/1sxE-pn_d9mBh4My8fEpMqESQw_2J3dnU075G0zSE36I/edit?gid=1483737642#gid=1483737642") # the user can adjust these weighting factors manually to indicate your preferences for technical criteria 
 
 # Create the new database
@@ -41,8 +39,6 @@ ecosystem <- c("arable")
 # options are arable, forest, grassland
 # user can only choose one ecosystem. the selection tool and dataset is currently focused on arable ecosystems.
 
-<<<<<<< HEAD
-=======
 ## B.1) Which scale are you interested in?
 
 scale = c("landscape")
@@ -53,7 +49,6 @@ scale = c("landscape")
 user = c("policy_maker")
 # options are land_manager, business, policy_maker, scientist
 
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
 ######
 ## C) Indicate the importance of technical criteria to your assessment program on a scale from 1 to 5?
 
@@ -168,9 +163,6 @@ if(ecosystem == "arable"){
   sieve$App <- sieve$Applicability_grass
 }
 
-<<<<<<< HEAD
-
-=======
 if(scale == "local"){
   sieve$App.1 <- sieve$Local_scale
 } else if (scale == "landscape"){
@@ -188,7 +180,6 @@ if(user == "land_manager"){
 } else if (user == "scientist"){
   sieve$App.2 <- sieve$scientific_persp
 }
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
 
 ### 3C) TIER 3: TECHNICAL
 # This tier calculates the technical scores. 
@@ -223,11 +214,8 @@ sieve$Technical <- sieve$Technical * sieve$Filter
 ## CR function
 if ("CR" %in% functions){
   print("CR aggregation sieve is active")
-<<<<<<< HEAD
   sieve$CR_aggregated <- sieve$CR_pertinence * sieve$App * sieve$Technical
-=======
   sieve$CR_aggregated <- sieve$CR_pertinence * sieve$App * sieve$Technical * sieve$App.1 * sieve$App.2
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
   report_cr <- select(sieve, Method_name, Method_type, Name, Related_process, CR_aggregated)
   
   report_cr <- arrange(report_cr, (desc(CR_aggregated)))
@@ -244,11 +232,8 @@ if ("CR" %in% functions){
 ## DS function criteria
 if ("DS" %in% functions){
   print("DS aggregation sieve is active")
-<<<<<<< HEAD
   sieve$DS_aggregated <- sieve$DS_pertinence * sieve$App * sieve$Technical
-=======
   sieve$DS_aggregated <- sieve$DS_pertinence * sieve$App * sieve$Technical * sieve$App.1 * sieve$App.2
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
   report_ds <- select(sieve, Method_name, Method_type, Name, Related_process, DS_aggregated)
   report_ds <- arrange(report_ds, (desc(DS_aggregated)))
   
@@ -265,11 +250,8 @@ if ("DS" %in% functions){
 ## NC function criteria
 if ("NC" %in% functions){
   print("NC aggregation sieve is active")
-<<<<<<< HEAD
   sieve$NC_aggregated <- sieve$NC_pertinence * sieve$App * sieve$Technical
-=======
   sieve$NC_aggregated <- sieve$NC_pertinence * sieve$App * sieve$Technical * sieve$App.1 * sieve$App.2
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
   report_nc <- select(sieve, Method_name, Method_type, Name, Related_process, NC_aggregated)
   report_nc <- arrange(report_nc, (desc(NC_aggregated)))
   
@@ -286,11 +268,8 @@ if ("NC" %in% functions){
 ## WR function criteria
 if ("WR" %in% functions){
   print("WR aggregation sieve is active")
-<<<<<<< HEAD
   sieve$WR_aggregated <- sieve$WR_pertinence * sieve$App * sieve$Technical
-=======
   sieve$WR_aggregated <- sieve$WR_pertinence * sieve$App * sieve$Technical * sieve$App.1 * sieve$App.2
->>>>>>> feff85519408f7c8ea5c61677eedb90b484621da
   report_wr <- select(sieve, Method_name, Method_type, Name, Related_process, WR_aggregated)
   report_wr <- arrange(report_wr, (desc(WR_aggregated)))
   
