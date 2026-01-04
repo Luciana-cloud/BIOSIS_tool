@@ -288,3 +288,181 @@ sheet_write(Parameter_physical.final,
             ss = "https://docs.google.com/spreadsheets/d/1GuF4U_TA8DfVch40dUyEx63OeTUmjGhhguVziTLTweQ/edit?gid=0#gid=0",
             sheet = "Physical")
 
+# CARMEN DATASET ----
+
+# Call data ----
+scoring_criteria = read_excel("data/Method list assessment file.xlsx",
+                              sheet = "Scoring Criteria", range = "B22:M53")
+method_list      = read_excel("data/Method list assessment file.xlsx",
+                              sheet = "Method list", range = "A2:AM1019")
+
+# Test for Applicability & Discrimination ----
+
+# Agriculture
+final_list       = method_list %>% mutate(agriculture = case_when(`Is it applicable to agricultural soils?` == "Yes" ~ 1,
+                                                                  `Is it applicable to agricultural soils?` == "No" ~ 0,
+                                                                  `Is it applicable to agricultural soils?` == "Under specific conditions" ~ 2,
+                                                                  `Is it applicable to agricultural soils?` == NA ~ NA))
+
+# Urban
+final_list       = final_list %>% mutate(urban = case_when(`Is it applicable to urban soils?` == "Yes" ~ 1,
+                                                           `Is it applicable to urban soils?` == "No" ~ 0,
+                                                           `Is it applicable to urban soils?` == "Under specific conditions" ~ 2,
+                                                           `Is it applicable to urban soils?` == NA ~ NA))
+
+# Forest
+final_list       = final_list %>% mutate(forest = case_when(`Is it applicable to forest soils?` == "Yes" ~ 1,
+                                                            `Is it applicable to forest soils?` == "No" ~ 0,
+                                                            `Is it applicable to forest soils?` == "Under specific conditions" ~ 2,
+                                                            `Is it applicable to forest soils?` == NA ~ NA))
+
+# Scale
+final_list       = final_list %>% mutate(scale = case_when(`What is the smallest spatial scale that this method is suitable for?` == "field level" ~ 2,
+                                                           `What is the smallest spatial scale that this method is suitable for?` == "Point or pixel" ~ 3,
+                                                           `What is the smallest spatial scale that this method is suitable for?` == "Landscape or basin level discrimination" ~ 1,
+                                                           `What is the smallest spatial scale that this method is suitable for?` == NA ~ NA,
+                                                           `What is the smallest spatial scale that this method is suitable for?` == "Yes" ~ NA))
+
+# In field Collection ----
+
+# How long does it take to take one sample in the field? == sample_collection_1
+final_list       = final_list %>% mutate(sample_collection_1 = case_when(`How long does it take to take one sample in the field?` == "Less than an hour" ~ 3,
+                                                                         `How long does it take to take one sample in the field?` == "More than an hour" ~ 1,
+                                                                         `How long does it take to take one sample in the field?` == "No field visits needed" ~ 4,
+                                                                         `How long does it take to take one sample in the field?` == "About an hour" ~ 2,
+                                                                         `How long does it take to take one sample in the field?` == NA ~ NA))
+
+# How many samples need to be taken per location or treatment? == sample_collection_2
+final_list       = final_list %>% mutate(sample_collection_2 = case_when(`How many samples need to be taken per location or treatment?` == "More than one replicate needed per location/treatment" ~ 0,
+                                                                         `How many samples need to be taken per location or treatment?` == "One composite sample per location/treatment" ~ 1,
+                                                                         `How many samples need to be taken per location or treatment?` == NA ~ NA))
+
+# How many sampling times are required for the method to be realised? == sample_collection_3
+final_list       = final_list %>% mutate(sample_collection_3 = case_when(`How many visits to the field do we need?` == "One time enough" ~ 2,
+                                                                         `How many visits to the field do we need?` == "More than one sampling needed" ~ 1,
+                                                                         `How many visits to the field do we need?` == "The method does not require field visits" ~ 3,
+                                                                         `How many visits to the field do we need?` == NA ~ NA))
+
+# Does deployment of the method require specialised tools in the field? == sample_collection_4
+final_list       = final_list %>% mutate(sample_collection_4 = case_when(`Does the method require specialised tools in the field?` == "Specialised tools needed (such as density rings or enchytraeid corers needed)" ~ 1,
+                                                                         `Does the method require specialised tools in the field?` == "No specialised tools, a spade or a common auger work" ~ 2,
+                                                                         `Does the method require specialised tools in the field?` == "The method does not require field visits" ~ 3,
+                                                                         `Does the method require specialised tools in the field?` == NA ~ NA))
+
+# Sample storage, amount and archivability ----
+
+# What mass of soil is needed for sampling and determination? == storage.amount.archivability_1
+final_list       = final_list %>% mutate(storage.amount.archivability_1 = case_when(`How many grams/kilograms do we need for the method?` == "Small mass (<1 kg or < 2 L)" ~ 2,
+                                                                                    `How many grams/kilograms do we need for the method?` == "Very small mass (<100g or < 0.5 L)" ~ 3,
+                                                                                    `How many grams/kilograms do we need for the method?` == "Large mass (>1 kg or > 2 L)" ~ 1,
+                                                                                    `How many grams/kilograms do we need for the method?` == NA ~ NA))
+
+# Given appropriate preservation, how soon do post-sampling measures need to be applied? == storage.amount.archivability_2
+final_list       = final_list %>% mutate(storage.amount.archivability_2 = case_when(`How much time can we store the sample before starting with the analysis?` == "Within 1 week" ~ 1,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == "Within 6 months to year" ~ 3,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == "Within 1 month" ~ 2,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == "Not possible" ~ 0,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == NA ~ NA))
+
+# In what form is it possible to archive soil samples (i.e. over decades) in order to accurately re-determine these properties? == storage.amount.archivability_3
+final_list       = final_list %>% mutate(storage.amount.archivability_3 = case_when(`How long can we store the sample and still get reasonable results?` == "Archivable as fixated or extracted sample or as frozen soil" ~ 1,
+                                                                                    `How long can we store the sample and still get reasonable results?` == "Archivable as dried soil sample" ~ 2,
+                                                                                    `How long can we store the sample and still get reasonable results?` == "Not archivable" ~ 0,
+                                                                                    `How long can we store the sample and still get reasonable results?` == NA ~ NA))
+
+# Duration ----
+
+# How much time does it take to pre-process the sample? == duration ** (additional level which is not here)
+final_list       = final_list %>% mutate(duration = case_when(`How long does it take to process the sample?` == "In adition, extractions also needed" ~ 1,
+                                                              `How long does it take to process the sample?` == "soil drying and/or sieving additionally needed" ~ 2,
+                                                              `How long does it take to process the sample?` == "only coarse debris removal or homogeneization needed" ~ 3,
+                                                              `How long does it take to process the sample?` == "In adition, extractions and/or an incubation period also needed" ~ 4,
+                                                              `How long does it take to process the sample?` == "No preprocessing needed" ~ 0,
+                                                              `How long does it take to process the sample?` == "Archivable as fixated or extracted sample or as frozen soil" ~ NA,
+                                                              `How long does it take to process the sample?` == NA ~ NA))
+
+# Reference material ----
+
+# Is the method amenable to the prescription and provision of such material? == reference.material ** (other way around, level missing)
+final_list       = final_list %>% mutate(reference.material = case_when(`Do we need to include or develop reference material, or ground truth the measurements?` == "None" ~ 0,
+                                                                        `Do we need to include or develop reference material, or ground truth the measurements?` == "Yes, an internal reference" ~ 2,
+                                                                        `Do we need to include or develop reference material, or ground truth the measurements?` == "Yes, an international / standard reference" ~ 3,
+                                                                        `Do we need to include or develop reference material, or ground truth the measurements?` == "Potential but not often applied in practice" ~ 1,
+                                                                        `Do we need to include or develop reference material, or ground truth the measurements?` == NA ~ NA))
+
+# Throughput ----
+
+# How many samples can be processed with optimised laboratory systems and dedicated staff? == throughput 
+final_list       = final_list %>% mutate(throughput = case_when(`How many samples can be processed per week?` == "< 20 /week" ~ 1,
+                                                                `How many samples can be processed per week?` == "> 100/week" ~ 4,
+                                                                `How many samples can be processed per week?` == "20-50/week" ~ 2,
+                                                                `How many samples can be processed per week?` == "50-100/week" ~ 3,
+                                                                `How many samples can be processed per week?` == NA ~ NA))
+
+# Lab analysis cost per sample ----
+# If sent to an external lab, how much would it cost to run the sample? == lab.cost 
+final_list       = final_list %>% mutate(lab.cost = case_when(`What is the cost per sample/image?` == "less than 10 euros/sample" ~ 3,
+                                                              `What is the cost per sample/image?` == "10-50 euros per sample" ~ 2,
+                                                              `What is the cost per sample/image?` == "more than 50 euros a sample" ~ 1,
+                                                              `What is the cost per sample/image?` == "Free" ~ 4,
+                                                              `What is the cost per sample/image?` == NA ~ NA))
+
+# Ease of use in laboratory ----
+# What is the level of skill required to perform this method in the laboratory? == lab.use 
+final_list       = final_list %>% mutate(lab.use = case_when(`Do we need a specialized lab for the method?` == "Specialised" ~ 1,
+                                                             `Do we need a specialized lab for the method?` == "Moderate" ~ 2,
+                                                             `Do we need a specialized lab for the method?` == "Low" ~ 3,
+                                                             `Do we need a specialized lab for the method?` == NA ~ NA))
+
+# Infrastructure ----
+# Does the implementation of the method require a stable internet connection? == internet.conection
+final_list       = final_list %>% mutate(internet.conection = case_when(`Does the implementation of the method require a stable internet connection?` == "no" ~ 1,
+                                                                        `Does the implementation of the method require a stable internet connection?` == "No" ~ 1,
+                                                                        `Does the implementation of the method require a stable internet connection?` == "yes" ~ 0,
+                                                                        `Does the implementation of the method require a stable internet connection?` == NA ~ NA))
+
+# Data storage and processing ----
+# "How much data storage is needed to store and process the data? == data.storage.1
+final_list       = final_list %>% mutate(data.storage.1 = case_when(`How much data storage is needed to store and process the data? ` == "Kilobytes (KB)" ~ 4,
+                                                                    `How much data storage is needed to store and process the data? ` == "Gigabytes (GB)" ~ 2,
+                                                                    `How much data storage is needed to store and process the data? ` == "Megabytes (MB)" ~ 3,
+                                                                    `How much data storage is needed to store and process the data? ` == "Terabytes (TB)" ~ 1,
+                                                                    `How much data storage is needed to store and process the data? ` == NA ~ NA))
+
+# How much data processing capacity is needed? == data.storage.2 ** (workstation is easier than having a laptop)
+final_list       = final_list %>% mutate(data.storage.2 = case_when(`How much processing capacity is needed? ` == "laptop" ~ 4,
+                                                                    `How much processing capacity is needed? ` == "mainframe" ~ 2,
+                                                                    `How much processing capacity is needed? ` == "workstation" ~ 3,
+                                                                    `How much processing capacity is needed? ` == "computer" ~ 1,
+                                                                    `How much processing capacity is needed? ` == "Supercomputer" ~ 0,
+                                                                    `How much processing capacity is needed? ` == NA ~ NA))
+
+# How much image processing is needed?  == data.storage.3
+final_list       = final_list %>% mutate(data.storage.3 = case_when(`How much image processing is needed?` == "No processing needed" ~ 4,
+                                                                    `How much image processing is needed?` == "Specialised" ~ 1,
+                                                                    `How much image processing is needed?` == "Straightforward" ~ 3,
+                                                                    `How much image processing is needed?` == "Moderate" ~ 2,
+                                                                    `How much image processing is needed?` == NA ~ NA))
+
+# How much data analysis  is required to obtain the data product?  == data.storage.4 
+final_list       = final_list %>% mutate(data.storage.4 = case_when(`How much data analysis  is required to obtain the data product?` == "No processing needed" ~ 4,
+                                                                    `How much data analysis  is required to obtain the data product?` == "Specialised" ~ 1,
+                                                                    `How much data analysis  is required to obtain the data product?` == "Moderate" ~ 2,
+                                                                    `How much data analysis  is required to obtain the data product?` == "Straightforward" ~ 3,
+                                                                    `How much data analysis  is required to obtain the data product?` == NA ~ NA))
+
+# Temporal resolution ----
+
+# Spatial resolution ----
+
+# Spectral resolution	----
+
+# Interpretation	----
+
+# Data license	----
+
+# Software use	----
+
+# Reproducibility	----
+
+# Deployment	----
