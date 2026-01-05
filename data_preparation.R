@@ -452,17 +452,80 @@ final_list       = final_list %>% mutate(data.storage.4 = case_when(`How much da
                                                                     `How much data analysis  is required to obtain the data product?` == NA ~ NA))
 
 # Temporal resolution ----
-
+# What is the temporal resolution of the data product?  == temporal.resolution
+final_list       = final_list %>% mutate(temporal.resolution = case_when(`What is the temporal resolution of the data product? ` == "Annual-seasonal" ~ 1,
+                                                                         `What is the temporal resolution of the data product? ` == "Daily-hourly" ~ 4,
+                                                                         `What is the temporal resolution of the data product? ` == "Long-term average" ~ 0,
+                                                                         `What is the temporal resolution of the data product? ` == "Weekly" ~ 3,
+                                                                         `What is the temporal resolution of the data product? ` == "Monthly" ~ 2,
+                                                                         `What is the temporal resolution of the data product? ` == NA ~ NA))
 # Spatial resolution ----
+# How much land surface area can be covered by this data product?  == spatial.resolution.1 ** (what is the logic of the scores?)
+final_list       = final_list %>% mutate(spatial.resolution.1 = case_when(`How much land surface area can be covered by this method/data product?  ` == "field" ~ 4,
+                                                                          `How much land surface area can be covered by this method/data product?  ` == "Continent" ~ 1,
+                                                                          `How much land surface area can be covered by this method/data product?  ` == "Global" ~ 0,
+                                                                          `How much land surface area can be covered by this method/data product?  ` == "region" ~ 3,
+                                                                          `How much land surface area can be covered by this method/data product?  ` == "Country" ~ 2,
+                                                                          `How much land surface area can be covered by this method/data product?  ` == NA ~ NA))
+
+# What is the spatial resolution of the data product?  == spatial.resolution.2 ** (what is the logic of the scores?)
+final_list       = final_list %>% mutate(spatial.resolution.2 = case_when(`What is the spatial resolution of the data product? ` == "30-10 m" ~ 3,
+                                                                          `What is the spatial resolution of the data product? ` == "Less than 1 m" ~ 4,
+                                                                          `What is the spatial resolution of the data product? ` == "100-30 m" ~ 2,
+                                                                          `What is the spatial resolution of the data product? ` == "500-100m" ~ 1,
+                                                                          `What is the spatial resolution of the data product? ` == "More than 1km" ~ 0,
+                                                                          `What is the spatial resolution of the data product? ` == NA ~ NA))
 
 # Spectral resolution	----
+# What is the spectral resolution of the data product?  == spectral.resolution.1 ** (logic of the scores)
+final_list       = final_list %>% mutate(spectral.resolution.1 = case_when(`What is the spectral resolution of the data product?` == "Hyper-band" ~ 3,
+                                                                           `What is the spectral resolution of the data product?` == "Multi-band" ~ 2,
+                                                                           `What is the spectral resolution of the data product?` == "single band" ~ 1,
+                                                                           `What is the spectral resolution of the data product?` == NA ~ NA))
+
+# Which wavelength range(s) does it cover?  == spectral.resolution.2
+final_list       = final_list %>% mutate(spectral.resolution.2 = case_when(`What wavelength range does it cover? ` == "UV" ~ 2,
+                                                                           `What wavelength range does it cover? ` == "VNIR" ~ 4,
+                                                                           `What wavelength range does it cover? ` == "VIS" ~ 3,
+                                                                           `What wavelength range does it cover? ` == "Thermal" ~ 7,
+                                                                           `What wavelength range does it cover? ` == "Microwave" ~ 8,
+                                                                           `What wavelength range does it cover? ` == "Gamma-ray" ~ 0,
+                                                                           `What wavelength range does it cover? ` == "X-ray" ~ 1,
+                                                                           `What wavelength range does it cover? ` == "SWIR" ~ 5,
+                                                                           `What wavelength range does it cover? ` == "MIR" ~ 6,
+                                                                           `What wavelength range does it cover? ` == NA ~ NA))
 
 # Interpretation	----
+# What is the level of skill required to process the raw data ?  == interpretation
+final_list       = final_list %>% mutate(interpretation = case_when(`Do we need a high level of expertise to interpret and process the data?` == "Straightforward" ~ 3,
+                                                                    `Do we need a high level of expertise to interpret and process the data?` == "Moderate" ~ 2,
+                                                                    `Do we need a high level of expertise to interpret and process the data?` == "Specialised" ~ 1,
+                                                                    `Do we need a high level of expertise to interpret and process the data?` == NA ~ NA))
 
 # Data license	----
+# Can the data be publicly shared/can the data product be freely shared with other users?  == data.license
+final_list       = final_list %>% mutate(data.license = case_when(`Can the data be publicly shared/can the data product be freely shared with other users? ` == "Yes, the data can be fully shared" ~ 2,
+                                                                  `Can the data be publicly shared/can the data product be freely shared with other users? ` == "no" ~ 0,
+                                                                  `Can the data be publicly shared/can the data product be freely shared with other users? ` == "Only processed data products can be shared" ~ 1,
+                                                                  `Can the data be publicly shared/can the data product be freely shared with other users? ` == NA ~ NA))
 
 # Software use	----
+# Do we need a specialized software for the method?  == software
+final_list       = final_list %>% mutate(software = case_when(`Do we need a specialized software for the method? ` == "no" ~ 2,
+                                                              `Do we need a specialized software for the method? ` == "the software is specialised, but freely available" ~ 1,
+                                                              `Do we need a specialized software for the method? ` == "the software is specialised and requires payment" ~ 0,
+                                                              `Do we need a specialized software for the method? ` == NA ~ NA))
 
 # Reproducibility	----
+# How reproducible is this method? == reproducibility
+final_list       = final_list %>% mutate(reproducibility = case_when(`How reproducible is this method?` == "Moderate" ~ 2,
+                                                                     `How reproducible is this method?` == "Low" ~ 1,
+                                                                     `How reproducible is this method?` == "High" ~ 3,
+                                                                     `How reproducible is this method?` == NA ~ NA))
 
 # Deployment	----
+# Is this method well-established or still under development? == deployment
+final_list       = final_list %>% mutate(deployment = case_when(`Is this method well-established or still under development?` == "Not ready, years of development needed" ~ 0,
+                                                                `Is this method well-established or still under development?` == "Developed for experimental use" ~ 1,
+                                                                `Is this method well-established or still under development?` == "Fully developed for routine use" ~ 2,
+                                                                `Is this method well-established or still under development?` == NA ~ NA))
