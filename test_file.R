@@ -200,6 +200,19 @@ sieve$Technical <-  sieve$Throughput/4 * weights["Throughput"] +
   sieve$Deployment/2 * weights["Deployment"] + 
   sieve$Infrastructure/3 * weights["Infrastructure"]
 
+# Testing pareto front
+
+#install.packages("rPref")
+library(rPref)
+
+sky1 <- psel(sieve, high(CR_pertinence) * high(DS_pertinence)* high(NC_pertinence)* high(WR_pertinence))
+
+ggplot(sieve, aes(x = CR_pertinence, y = WR_pertinence)) + geom_point(shape = 21) +   
+  geom_point(data = sky1, size = 3)
+
+# Indicator list
+
+unique(sky1$Name)
 
 ###3D) Final filter for exclusion criteria
 # In this final step technical scores are multiplied by filter. This sieves out methods that scored 0 on one of the filters applied. 

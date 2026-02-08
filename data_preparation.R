@@ -529,3 +529,4 @@ final_list       = final_list %>% mutate(deployment = case_when(`Is this method 
                                                                 `Is this method well-established or still under development?` == "Developed for experimental use" ~ 1,
                                                                 `Is this method well-established or still under development?` == "Fully developed for routine use" ~ 2,
                                                                 `Is this method well-established or still under development?` == NA ~ NA))
+
