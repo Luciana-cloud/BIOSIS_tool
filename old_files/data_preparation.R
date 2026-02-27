@@ -1,7 +1,7 @@
 # Calling packages----
 library(readr)
 library(tidyverse)
-library(plyr)
+#library(plyr)
 library(googledrive)
 library(googlesheets4)
 library(readxl)
@@ -288,7 +288,7 @@ sheet_write(Parameter_physical.final,
             ss = "https://docs.google.com/spreadsheets/d/1GuF4U_TA8DfVch40dUyEx63OeTUmjGhhguVziTLTweQ/edit?gid=0#gid=0",
             sheet = "Physical")
 
-# CARMEN DATASET ----
+# METHODS ----
 
 # Call data ----
 scoring_criteria = read_excel("data/Method list assessment file.xlsx",
@@ -529,4 +529,134 @@ final_list       = final_list %>% mutate(deployment = case_when(`Is this method 
                                                                 `Is this method well-established or still under development?` == "Developed for experimental use" ~ 1,
                                                                 `Is this method well-established or still under development?` == "Fully developed for routine use" ~ 2,
                                                                 `Is this method well-established or still under development?` == NA ~ NA))
+# Replace na values with 0 
+final_list <- final_list %>%
+  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+write.csv(final_list,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects.csv", row.names = FALSE)
+
+# Test relevance ----
+process_scores      = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/process_scores.xlsx")
+parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+parameter_scores_CZ = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx", 
+                               sheet = "CZ")
+parameter_scores_LU = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx", 
+                               sheet = "LUT")
+parameter_scores_CZ_LU = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx", 
+                               sheet = "LUTxCZ")
+
+# Change names to harmonize datasets ----
+parameter_scores = parameter_scores %>% mutate(folder_code = case_when(folder_code == "CR" ~ "Climate regulation",
+                                                                       folder_code == "HP" ~ "Habitat provision",
+                                                                       folder_code == "NC" ~ "Nutrient cycling",
+                                                                       folder_code == "WR" ~ "Water regulation and filtration"))
+
+parameter_scores_CZ = parameter_scores_CZ %>% mutate(folder_code = case_when(folder_code == "CR" ~ "Climate regulation",
+                                                                       folder_code == "HP" ~ "Habitat provision",
+                                                                       folder_code == "NC" ~ "Nutrient cycling",
+                                                                       folder_code == "WR" ~ "Water regulation and filtration"))
+
+parameter_scores_LU = parameter_scores_LU %>% mutate(folder_code = case_when(folder_code == "CR" ~ "Climate regulation",
+                                                                       folder_code == "HP" ~ "Habitat provision",
+                                                                       folder_code == "NC" ~ "Nutrient cycling",
+                                                                       folder_code == "WR" ~ "Water regulation and filtration"))
+
+parameter_scores_CZ_LU = parameter_scores_CZ_LU %>% mutate(folder_code = case_when(folder_code == "CR" ~ "Climate regulation",
+                                                                       folder_code == "HP" ~ "Habitat provision",
+                                                                       folder_code == "NC" ~ "Nutrient cycling",
+                                                                       folder_code == "WR" ~ "Water regulation and filtration"))
+
+# Create consolidating variable for the relevance of each parameter based on the questions ----
+
+# Total relevance
+parameter_scores = parameter_scores %>% mutate(parameter_relevace = (parameter_scores$Q1_median/max(parameter_scores$Q1_median)+
+                                                                         parameter_scores$Q2_median/max(parameter_scores$Q2_median)+
+                                                                         parameter_scores$Q3_median/max(parameter_scores$Q3_median))/3)
+# Agriculture relevance
+parameter_scores_agr = parameter_scores_LU %>% filter(`Land use` == "Agricultural")
+
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_agr = (parameter_scores_agr$Q1_median/max(parameter_scores_agr$Q1_median)+
+                                                                           parameter_scores_agr$Q2_median/max(parameter_scores_agr$Q2_median)+
+                                                                           parameter_scores_agr$Q3_median/max(parameter_scores_agr$Q3_median))/3)
+
+# Forest relevance
+parameter_scores_for = parameter_scores_LU %>% filter(`Land use` == "Forestry")
+
+# Replace na values with 0 
+parameter_scores_for[is.na(parameter_scores_for)] = 0
+
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_for = (parameter_scores_for$Q1_median/max(parameter_scores_for$Q1_median)+
+                                                                           parameter_scores_for$Q2_median/max(parameter_scores_for$Q2_median)+
+                                                                           parameter_scores_for$Q3_median/max(parameter_scores_for$Q3_median))/3)
+
+# Urban relevance
+parameter_scores_urb = parameter_scores_LU %>% filter(`Land use` == "Urban")
+
+# Replace na values with 0 
+parameter_scores_urb[is.na(parameter_scores_urb)] = 0
+
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_urb = (parameter_scores_urb$Q1_median/max(parameter_scores_urb$Q1_median)+
+                                                                           parameter_scores_urb$Q2_median/max(parameter_scores_urb$Q2_median)+
+                                                                           parameter_scores_urb$Q3_median/max(parameter_scores_urb$Q3_median))/3)
+
+# Atlantic Central
+parameter_scores_urb = parameter_scores_LU %>% filter(`Land use` == "Urban")
+
+# Replace na values with 0 
+parameter_scores_urb[is.na(parameter_scores_urb)] = 0
+
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_urb = (parameter_scores_urb$Q1_median/max(parameter_scores_urb$Q1_median)+
+                                                                           parameter_scores_urb$Q2_median/max(parameter_scores_urb$Q2_median)+
+                                                                           parameter_scores_urb$Q3_median/max(parameter_scores_urb$Q3_median))/3)
+
+
+
+# General table
+test_table = parameter_scores %>% select("folder_code","Process","Parameter","parameter_relevace","parameter_relevace_agr",
+                                         "parameter_relevace_for","parameter_relevace_urb")
+colnames(test_table) = c("Function","Process","Parameter","Score_Parameter_total",
+                         "Score_Parameter_agriculture","Score_Parameter_forest",
+                         "Score_Parameter_urban")
+
+test_table1 = test_table
+
+# Match content :: There are some mismatches in names 
+
+key_test  = paste(test_table1$Process,  test_table1$Function)
+key_score = paste(process_scores$name, process_scores$Function)
+
+idx = match(key_test, key_score)
+
+# Match the scores of the processes 
+# idx = match(test_table1$Process, process_scores$name)
+test_table1$Subfunction   = process_scores$Subfunction[idx]
+test_table1$Score_Process = process_scores$Full_medians[idx] # Total Relevance
+test_table1$Score_Process_agri = process_scores$Agr_medians[idx] # Agricultural Relevance
+test_table1$Score_Process_for  = process_scores$For_medians[idx] # Forest Relevance
+test_table1$Score_Process_urb  = process_scores$Urb_medians[idx] # Urban Relevance
+
+# Match the scores of the subfunctions
+
+idx = match(test_table1$Subfunction, process_scores$name)
+test_table1$Score_Subfunction = process_scores$Full_medians[idx]  # Total Relevance
+test_table1$Score_Subfunction_agr = process_scores$Agr_medians[idx]  # Agricultural Relevance
+test_table1$Score_Subfunction_for = process_scores$For_medians[idx]  # Forest Relevance
+test_table1$Score_Subfunction_urb = process_scores$Urb_medians[idx]  # Urban Relevance
+
+# Relevance score :: multiplication of the different scores for total relevance
+test_table1 = test_table1 %>% mutate(total_relevance = Score_Parameter_total*Score_Process*
+                                       Score_Subfunction,
+                                     relevance_agriculture = Score_Parameter_agriculture*Score_Process_agri*
+                                       Score_Subfunction_agr,
+                                     relevance_forest = Score_Parameter_forest*Score_Process_for*
+                                       Score_Subfunction_for,
+                                     relevance_urban = Score_Parameter_urban*Score_Process_urb*
+                                       Score_Subfunction_urb)
+
+# Aggregate  
+test_table2 = test_table1 %>% dplyr::group_by(Function,Parameter) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
+                                                                                relevance_agriculture = mean(relevance_agriculture,na.rm=TRUE),
+                                                                                relevance_forest = mean(relevance_forest,na.rm=TRUE),
+                                                                                relevance_urban = mean(relevance_urban,na.rm=TRUE))
+
+
 
