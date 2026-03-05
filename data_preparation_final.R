@@ -10,6 +10,7 @@ library(purrr)
 library(rPref)
 library(GGally)
 library(fmsb)
+library(stringr)
 
 # RELEVANCE ----
 
@@ -57,29 +58,29 @@ parameter_scores = parameter_scores %>% mutate(parameter_relevace = (parameter_s
 # Agriculture relevance
 parameter_scores_agr = parameter_scores_LU %>% filter(`Land use` == "Agricultural")
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_agr = (parameter_scores_agr$Q1_median/max(parameter_scores_agr$Q1_median)+
-                                                                           parameter_scores_agr$Q2_median/max(parameter_scores_agr$Q2_median)+
-                                                                           parameter_scores_agr$Q3_median/max(parameter_scores_agr$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_agr = (parameter_scores_agr$Q1_median/max(parameter_scores_agr$Q1_median, na.rm=TRUE)+
+                                                                           parameter_scores_agr$Q2_median/max(parameter_scores_agr$Q2_median, na.rm=TRUE)+
+                                                                           parameter_scores_agr$Q3_median/max(parameter_scores_agr$Q3_median, na.rm=TRUE))/3)
 
 # Forest relevance
 parameter_scores_for = parameter_scores_LU %>% filter(`Land use` == "Forestry")
 
 # Replace na values with 0 
-parameter_scores_for[is.na(parameter_scores_for)] = 0
+# parameter_scores_for[is.na(parameter_scores_for)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_for = (parameter_scores_for$Q1_median/max(parameter_scores_for$Q1_median)+
-                                                                           parameter_scores_for$Q2_median/max(parameter_scores_for$Q2_median)+
-                                                                           parameter_scores_for$Q3_median/max(parameter_scores_for$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_for = (parameter_scores_for$Q1_median/max(parameter_scores_for$Q1_median, na.rm=TRUE)+
+                                                                           parameter_scores_for$Q2_median/max(parameter_scores_for$Q2_median, na.rm=TRUE)+
+                                                                           parameter_scores_for$Q3_median/max(parameter_scores_for$Q3_median, na.rm=TRUE))/3)
 
 # Urban relevance
 parameter_scores_urb = parameter_scores_LU %>% filter(`Land use` == "Urban")
 
 # Replace na values with 0 
-parameter_scores_urb[is.na(parameter_scores_urb)] = 0
+# parameter_scores_urb[is.na(parameter_scores_urb)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_urb = (parameter_scores_urb$Q1_median/max(parameter_scores_urb$Q1_median)+
-                                                                           parameter_scores_urb$Q2_median/max(parameter_scores_urb$Q2_median)+
-                                                                           parameter_scores_urb$Q3_median/max(parameter_scores_urb$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_urb = (parameter_scores_urb$Q1_median/max(parameter_scores_urb$Q1_median, na.rm=TRUE)+
+                                                                           parameter_scores_urb$Q2_median/max(parameter_scores_urb$Q2_median, na.rm=TRUE)+
+                                                                           parameter_scores_urb$Q3_median/max(parameter_scores_urb$Q3_median, na.rm=TRUE))/3)
 
 # Climatic zone relevance 
 
@@ -87,99 +88,99 @@ parameter_scores = parameter_scores %>% mutate(parameter_relevace_urb = (paramet
 parameter_scores_AC = parameter_scores_CZ %>% filter(`Climatic Zone` == "Atlantic Central")
 
 # Replace na values with 0 
-parameter_scores_AC[is.na(parameter_scores_AC)] = 0
+# parameter_scores_AC[is.na(parameter_scores_AC)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_AC = (parameter_scores_AC$Q1_median/max(parameter_scores_AC$Q1_median)+
-                                                                          parameter_scores_AC$Q2_median/max(parameter_scores_AC$Q2_median)+
-                                                                          parameter_scores_AC$Q3_median/max(parameter_scores_AC$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_AC = (parameter_scores_AC$Q1_median/max(parameter_scores_AC$Q1_median, na.rm=TRUE)+
+                                                                          parameter_scores_AC$Q2_median/max(parameter_scores_AC$Q2_median, na.rm=TRUE)+
+                                                                          parameter_scores_AC$Q3_median/max(parameter_scores_AC$Q3_median, na.rm=TRUE))/3)
 
 # Atlantic North 
 parameter_scores_AN = parameter_scores_CZ %>% filter(`Climatic Zone` == "Atlantic North")
 
 # Replace na values with 0 
-parameter_scores_AN[is.na(parameter_scores_AN)] = 0
+# parameter_scores_AN[is.na(parameter_scores_AN)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_AN = (parameter_scores_AN$Q1_median/max(parameter_scores_AN$Q1_median)+
-                                                                          parameter_scores_AN$Q2_median/max(parameter_scores_AN$Q2_median)+
-                                                                          parameter_scores_AN$Q3_median/max(parameter_scores_AN$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_AN = (parameter_scores_AN$Q1_median/max(parameter_scores_AN$Q1_median, na.rm=TRUE)+
+                                                                          parameter_scores_AN$Q2_median/max(parameter_scores_AN$Q2_median, na.rm=TRUE)+
+                                                                          parameter_scores_AN$Q3_median/max(parameter_scores_AN$Q3_median, na.rm=TRUE))/3)
 
 # Boreal 
 parameter_scores_Boreal = parameter_scores_CZ %>% filter(`Climatic Zone` == "Boreal")
 
 # Replace na values with 0 
-parameter_scores_Boreal[is.na(parameter_scores_Boreal)] = 0
+# parameter_scores_Boreal[is.na(parameter_scores_Boreal)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_Boreal = (parameter_scores_Boreal$Q1_median/max(parameter_scores_Boreal$Q1_median)+
-                                                                              parameter_scores_Boreal$Q2_median/max(parameter_scores_Boreal$Q2_median)+
-                                                                              parameter_scores_Boreal$Q3_median/max(parameter_scores_Boreal$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_Boreal = (parameter_scores_Boreal$Q1_median/max(parameter_scores_Boreal$Q1_median, na.rm=TRUE)+
+                                                                              parameter_scores_Boreal$Q2_median/max(parameter_scores_Boreal$Q2_median, na.rm=TRUE)+
+                                                                              parameter_scores_Boreal$Q3_median/max(parameter_scores_Boreal$Q3_median, na.rm=TRUE))/3)
 
 
 # Continental
 parameter_scores_Continental = parameter_scores_CZ %>% filter(`Climatic Zone` == "Continental")
 
 # Replace na values with 0 
-parameter_scores_Continental[is.na(parameter_scores_Continental)] = 0
+# parameter_scores_Continental[is.na(parameter_scores_Continental)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_Continental = (parameter_scores_Continental$Q1_median/max(parameter_scores_Continental$Q1_median)+
-                                                                                   parameter_scores_Continental$Q2_median/max(parameter_scores_Continental$Q2_median)+
-                                                                                   parameter_scores_Continental$Q3_median/max(parameter_scores_Continental$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_Continental = (parameter_scores_Continental$Q1_median/max(parameter_scores_Continental$Q1_median, na.rm=TRUE)+
+                                                                                   parameter_scores_Continental$Q2_median/max(parameter_scores_Continental$Q2_median, na.rm=TRUE)+
+                                                                                   parameter_scores_Continental$Q3_median/max(parameter_scores_Continental$Q3_median, na.rm=TRUE))/3)
 
 # Lusitanian
 parameter_scores_Lusitanian = parameter_scores_CZ %>% filter(`Climatic Zone` == "Lusitanian")
 
 # Replace na values with 0 
-parameter_scores_Lusitanian[is.na(parameter_scores_Lusitanian)] = 0
+# parameter_scores_Lusitanian[is.na(parameter_scores_Lusitanian)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_Lusitanian = (parameter_scores_Lusitanian$Q1_median/max(parameter_scores_Lusitanian$Q1_median)+
-                                                                                  parameter_scores_Lusitanian$Q2_median/max(parameter_scores_Lusitanian$Q2_median)+
-                                                                                  parameter_scores_Lusitanian$Q3_median/max(parameter_scores_Lusitanian$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_Lusitanian = (parameter_scores_Lusitanian$Q1_median/max(parameter_scores_Lusitanian$Q1_median, na.rm=TRUE)+
+                                                                                  parameter_scores_Lusitanian$Q2_median/max(parameter_scores_Lusitanian$Q2_median, na.rm=TRUE)+
+                                                                                  parameter_scores_Lusitanian$Q3_median/max(parameter_scores_Lusitanian$Q3_median, na.rm=TRUE))/3)
 
 # Mediterranean Mountains
 parameter_scores_MM = parameter_scores_CZ %>% filter(`Climatic Zone` == "Mediterranean Mountains")
 
 # Replace na values with 0 
-parameter_scores_MM[is.na(parameter_scores_MM)] = 0
+# parameter_scores_MM[is.na(parameter_scores_MM)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_MM = (parameter_scores_MM$Q1_median/max(parameter_scores_MM$Q1_median)+
-                                                                          parameter_scores_MM$Q2_median/max(parameter_scores_MM$Q2_median)+
-                                                                          parameter_scores_MM$Q3_median/max(parameter_scores_MM$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_MM = (parameter_scores_MM$Q1_median/max(parameter_scores_MM$Q1_median, na.rm=TRUE)+
+                                                                          parameter_scores_MM$Q2_median/max(parameter_scores_MM$Q2_median, na.rm=TRUE)+
+                                                                          parameter_scores_MM$Q3_median/max(parameter_scores_MM$Q3_median, na.rm=TRUE))/3)
 
 # Mediterranean North
 parameter_scores_MN = parameter_scores_CZ %>% filter(`Climatic Zone` == "Mediterranean North")
 
 # Replace na values with 0 
-parameter_scores_MN[is.na(parameter_scores_MN)] = 0
+# parameter_scores_MN[is.na(parameter_scores_MN)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_MN = (parameter_scores_MN$Q1_median/max(parameter_scores_MN$Q1_median)+
-                                                                          parameter_scores_MN$Q2_median/max(parameter_scores_MN$Q2_median)+
-                                                                          parameter_scores_MN$Q3_median/max(parameter_scores_MN$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_MN = (parameter_scores_MN$Q1_median/max(parameter_scores_MN$Q1_median, na.rm=TRUE)+
+                                                                          parameter_scores_MN$Q2_median/max(parameter_scores_MN$Q2_median, na.rm=TRUE)+
+                                                                          parameter_scores_MN$Q3_median/max(parameter_scores_MN$Q3_median, na.rm=TRUE))/3)
 
 
 # Mediterranean South
 parameter_scores_MS = parameter_scores_CZ %>% filter(`Climatic Zone` == "Mediterranean South")
 
 # Replace na values with 0 
-parameter_scores_MS[is.na(parameter_scores_MS)] = 0
+# parameter_scores_MS[is.na(parameter_scores_MS)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_MS = (parameter_scores_MS$Q1_median/max(parameter_scores_MS$Q1_median)+
-                                                                          parameter_scores_MS$Q2_median/max(parameter_scores_MS$Q2_median)+
-                                                                          parameter_scores_MS$Q3_median/max(parameter_scores_MS$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_MS = (parameter_scores_MS$Q1_median/max(parameter_scores_MS$Q1_median, na.rm=TRUE)+
+                                                                          parameter_scores_MS$Q2_median/max(parameter_scores_MS$Q2_median, na.rm=TRUE)+
+                                                                          parameter_scores_MS$Q3_median/max(parameter_scores_MS$Q3_median, na.rm=TRUE))/3)
 
 # Nemoral
 parameter_scores_Nemoral = parameter_scores_CZ %>% filter(`Climatic Zone` == "Nemoral")
 
 # Replace na values with 0 
-parameter_scores_Nemoral[is.na(parameter_scores_Nemoral)] = 0
+# parameter_scores_Nemoral[is.na(parameter_scores_Nemoral)] = 0
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_Nemoral = (parameter_scores_Nemoral$Q1_median/max(parameter_scores_Nemoral$Q1_median)+
-                                                                               parameter_scores_Nemoral$Q2_median/max(parameter_scores_Nemoral$Q2_median)+
-                                                                               parameter_scores_Nemoral$Q3_median/max(parameter_scores_Nemoral$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_Nemoral = (parameter_scores_Nemoral$Q1_median/max(parameter_scores_Nemoral$Q1_median, na.rm=TRUE)+
+                                                                               parameter_scores_Nemoral$Q2_median/max(parameter_scores_Nemoral$Q2_median, na.rm=TRUE)+
+                                                                               parameter_scores_Nemoral$Q3_median/max(parameter_scores_Nemoral$Q3_median, na.rm=TRUE))/3)
 
 # Pannonian
 parameter_scores_Pannonian = parameter_scores_CZ %>% filter(`Climatic Zone` == "Pannonian")
 
 # Replace na values with 0 
-parameter_scores_Pannonian[is.na(parameter_scores_Pannonian)] = 0
+# parameter_scores_Pannonian[is.na(parameter_scores_Pannonian)] = 0
 
 keyA <- paste(parameter_scores_Pannonian$folder_code, parameter_scores_Pannonian$Process,
               parameter_scores_Pannonian$Parameter)
@@ -195,12 +196,12 @@ parameter_scores_Pannonian.1$Process   <- parameter_scores_Nemoral$Process
 parameter_scores_Pannonian.1$Parameter <- parameter_scores_Nemoral$Parameter
 
 # Replace na values with 0 
-parameter_scores_Pannonian.1 <- parameter_scores_Pannonian.1 %>%
-  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+#parameter_scores_Pannonian.1 <- parameter_scores_Pannonian.1 %>%
+#  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
 
-parameter_scores = parameter_scores %>% mutate(parameter_relevace_Pannonian = (parameter_scores_Pannonian.1$Q1_median/max(parameter_scores_Pannonian.1$Q1_median)+
-                                                                                 parameter_scores_Pannonian.1$Q2_median/max(parameter_scores_Pannonian.1$Q2_median)+
-                                                                                 parameter_scores_Pannonian.1$Q3_median/max(parameter_scores_Pannonian.1$Q3_median))/3)
+parameter_scores = parameter_scores %>% mutate(parameter_relevace_Pannonian = (parameter_scores_Pannonian.1$Q1_median/max(parameter_scores_Pannonian.1$Q1_median, na.rm=TRUE)+
+                                                                                 parameter_scores_Pannonian.1$Q2_median/max(parameter_scores_Pannonian.1$Q2_median, na.rm=TRUE)+
+                                                                                 parameter_scores_Pannonian.1$Q3_median/max(parameter_scores_Pannonian.1$Q3_median, na.rm=TRUE))/3)
 
 # Create general table 
 
@@ -296,8 +297,10 @@ test_table1$Score_Subfunction_NEM  = (process_scores$ATC_medians[idx] +
                                         process_scores$PAN_medians[idx])/6 # Nemoral Relevance
 test_table1$Score_Subfunction_PAN  = process_scores$PAN_medians[idx] # Pannonian Relevance
 
+write.csv(test_table1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Preliminary_relevance.csv", row.names = FALSE)
+
 # Relevance score :: multiplication of the different scores for total relevance
-test_table1 = test_table1 %>% mutate(total_relevance = parameter_relevace*Score_Process*
+test_table1.1 = test_table1 %>% mutate(total_relevance = parameter_relevace*Score_Process*
                                        Score_Subfunction,
                                      relevance_agriculture = parameter_relevace_agr*Score_Process_agri*
                                        Score_Subfunction_agr,
@@ -327,7 +330,7 @@ test_table1 = test_table1 %>% mutate(total_relevance = parameter_relevace*Score_
                                        Score_Subfunction_PAN)
 
 # Aggregate 
-test_table2 = test_table1 %>% dplyr::group_by(folder_code,Parameter) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
+test_table2 = test_table1.1 %>% dplyr::group_by(folder_code,Parameter) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
                                                                                 relevance_agriculture = mean(relevance_agriculture,na.rm=TRUE),
                                                                                 relevance_forest = mean(relevance_forest,na.rm=TRUE),
                                                                                 relevance_urban = mean(relevance_urban,na.rm=TRUE),
@@ -343,7 +346,8 @@ test_table2 = test_table1 %>% dplyr::group_by(folder_code,Parameter) %>% summari
                                                                                 relevance_PAN = mean(relevance_PAN,na.rm=TRUE))
 
 colnames(test_table2)[1] = "Function"
-write.csv(test_table2,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations.csv", row.names = FALSE)
+test_table2 = test_table2 %>% mutate_all(~ifelse(is.nan(.), NA, .))
+write.csv(test_table2,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations_updated.csv", row.names = FALSE)
 
 # FREQUENCY ----
 
@@ -362,37 +366,37 @@ Cognitive_models = Cognitive_models %>% filter(type %in% c("chemical", "environm
                                                            "physical", "biological"))
 
 # Total
-CM_total_FR = Cognitive_models %>% group_by(parameter_name) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_total_FR)[2] = "Total_frequency"
+CM_total_FR = Cognitive_models %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_total_FR)[3] = "Total_frequency"
 
 # Agriculture
 CM_Agriculture    = Cognitive_models %>% filter(Agriculture == 1)
-CM_Agriculture_FR = CM_Agriculture %>% group_by(parameter_name) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Agriculture_FR)[2] = "Frequency_Agriculture"
+CM_Agriculture_FR = CM_Agriculture %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Agriculture_FR)[3] = "Frequency_Agriculture"
 
 # Forest
 CM_Forest    = Cognitive_models %>% filter(Forest == 1)
-CM_Forest_FR = CM_Forest %>% group_by(parameter_name) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Forest_FR)[2] = "Frequency_Forest"
+CM_Forest_FR = CM_Forest %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Forest_FR)[3] = "Frequency_Forest"
 
 # Urban
 CM_Urban    = Cognitive_models %>% filter(Urban == 1)
-CM_Urban_FR = CM_Urban %>% group_by(parameter_name) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Urban_FR)[2] = "Frequency_Urban"
+CM_Urban_FR = CM_Urban %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Urban_FR)[3] = "Frequency_Urban"
 
 # Merge Frequencies
 Final_frequencies = CM_total_FR
-key_test  = paste(CM_total_FR$parameter_name)
+key_test  = paste(CM_total_FR$parameter_name,CM_total_FR$type)
 #Agriculture
-key_score = paste(CM_Agriculture_FR$parameter_name)
+key_score = paste(CM_Agriculture_FR$parameter_name,CM_Agriculture_FR$type)
 idx = match(key_test, key_score)
 Final_frequencies$Frequency_Agriculture   = CM_Agriculture_FR$Frequency_Agriculture[idx]
 #Forest
-key_score = paste(CM_Forest_FR$parameter_name)
+key_score = paste(CM_Forest_FR$parameter_name,CM_Forest_FR$type)
 idx = match(key_test, key_score)
 Final_frequencies$Frequency_Forest   = CM_Forest_FR$Frequency_Forest[idx]
 #Urban
-key_score = paste(CM_Urban_FR$parameter_name)
+key_score = paste(CM_Urban_FR$parameter_name,CM_Urban_FR$type)
 idx = match(key_test, key_score)
 Final_frequencies$Frequency_Urban   = CM_Urban_FR$Frequency_Urban[idx]
 
@@ -425,10 +429,212 @@ Final_frequencies = Final_frequencies %>% mutate(Frequency_Urb = case_when(Frequ
                                                                            Frequency_Urban >= as.numeric(quantile(Final_frequencies$Frequency_Urban, 0.90)) ~ 4,
                                                                            Frequency_Urban < as.numeric(quantile(Final_frequencies$Frequency_Urban, 0.90)) ~ 3))
 
-Final_frequencies = Final_frequencies %>% select(parameter_name,Frequency_Total,Frequency_Agr,
+Final_frequencies = Final_frequencies %>% select(parameter_name,type,Frequency_Total,Frequency_Agr,
                                                  Frequency_For,Frequency_Urb)
 
-write.csv(Final_frequencies,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies.csv", row.names = FALSE)
+write.csv(Final_frequencies,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_updated.csv", row.names = FALSE)
+
+# Inclusion for processes that have indicators
+
+# Call technical aspects
+Final_technical_aspects = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects.csv")
+process_with_indicators = Final_technical_aspects %>% filter(parameter_type == "process")
+process_with_indicators = process_with_indicators %>%
+  mutate(across(where(is.character), tolower))
+process_with_indicators = process_with_indicators %>% select(c("parameter_type",
+                                                               "parameter_name"))
+process_with_indicators = process_with_indicators %>% distinct(parameter_name)
+colnames(process_with_indicators) = "name"
+
+# Call process scores
+process_scores      = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/process_scores.xlsx")
+process_scores = process_scores %>%
+  mutate(across(where(is.character), tolower))
+
+process_scores = process_scores %>%
+  mutate(name = str_replace_all(name, c(
+    "volatilization" = "volatilisation",
+    "mineralization" = "mineralisation",
+    "depolymerization" = "depolymerisation",
+    "stabilization" = "stabilisation",
+    "salinization" = "salinisation",
+    "senescense" = "senescence",
+    "nitrogen fixation" = "n fixation",
+    "adsorption / desorption" = "adsorption/desorption",
+    "nitrification / denitrification" = "nitrification/denitrification",
+    "plant uptake-transpiration" = "plant uptake/transpiration",
+    "ponding / run-off" = "ponding/run-off",
+    "senescence and debris formation" = "senescense/debris formation" # correcting the typo
+  )))
+
+# Match contents
+
+process_scores_merge = merge(process_scores, process_with_indicators, by = "name")
+process_scores_merge = process_scores_merge %>% select(c("Function","Subfunction",
+                                                         "name"))
+key_test  = paste(process_scores_merge$name,process_scores_merge$Function)
+key_score = paste(process_scores$name, process_scores$Function)
+
+idx = match(key_test, key_score)
+
+# Match the scores of the processes 
+process_scores_merge$Score_Process = process_scores$Full_medians[idx] # Total Relevance
+process_scores_merge$Score_Process_agri = process_scores$Agr_medians[idx] # Agricultural Relevance
+process_scores_merge$Score_Process_for  = process_scores$For_medians[idx] # Forest Relevance
+process_scores_merge$Score_Process_urb  = process_scores$Urb_medians[idx] # Urban Relevance
+
+process_scores_merge$Score_Process_AT  = process_scores$ATC_medians[idx] # Atlantic Central Relevance
+process_scores_merge$Score_Process_AN  = (process_scores$ATC_medians[idx] + 
+                                            process_scores$BOR_medians[idx] + 
+                                            process_scores$CON_medians[idx] + 
+                                            process_scores$MDN_medians[idx] + 
+                                            process_scores$MDS_medians[idx] + 
+                                            process_scores$PAN_medians[idx])/6 # Atlantic North Relevance
+process_scores_merge$Score_Process_BOR  = process_scores$BOR_medians[idx] # Boreal Relevance
+process_scores_merge$Score_Process_CON  = process_scores$CON_medians[idx] # Continental Relevance
+process_scores_merge$Score_Process_LUS  = (process_scores$ATC_medians[idx] + 
+                                             process_scores$BOR_medians[idx] + 
+                                             process_scores$CON_medians[idx] + 
+                                             process_scores$MDN_medians[idx] + 
+                                             process_scores$MDS_medians[idx] + 
+                                             process_scores$PAN_medians[idx])/6 # Lusitanian Relevance
+process_scores_merge$Score_Process_MDM  = (process_scores$ATC_medians[idx] + 
+                                             process_scores$BOR_medians[idx] + 
+                                             process_scores$CON_medians[idx] + 
+                                             process_scores$MDN_medians[idx] + 
+                                             process_scores$MDS_medians[idx] + 
+                                             process_scores$PAN_medians[idx])/6 # Mediterranean Mountains Relevance
+process_scores_merge$Score_Process_MDN  = process_scores$MDN_medians[idx] # Mediterranean North Relevance
+process_scores_merge$Score_Process_MDS  = process_scores$MDS_medians[idx] # Mediterranean South Relevance
+process_scores_merge$Score_Process_NEM  = (process_scores$ATC_medians[idx] + 
+                                             process_scores$BOR_medians[idx] + 
+                                             process_scores$CON_medians[idx] + 
+                                             process_scores$MDN_medians[idx] + 
+                                             process_scores$MDS_medians[idx] + 
+                                             process_scores$PAN_medians[idx])/6 # Nemoral Relevance
+process_scores_merge$Score_Process_PAN  = process_scores$PAN_medians[idx] # Pannonian Relevance
+
+# Match the scores of the subfunctions
+
+idx = match(process_scores_merge$Subfunction, process_scores$name)
+process_scores_merge$Score_Subfunction = process_scores$Full_medians[idx]  # Total Relevance
+process_scores_merge$Score_Subfunction_agr = process_scores$Agr_medians[idx]  # Agricultural Relevance
+process_scores_merge$Score_Subfunction_for = process_scores$For_medians[idx]  # Forest Relevance
+process_scores_merge$Score_Subfunction_urb = process_scores$Urb_medians[idx]  # Urban Relevance
+
+process_scores_merge$Score_Subfunction_AT  = process_scores$ATC_medians[idx] # Atlantic Central Relevance
+process_scores_merge$Score_Subfunction_AN  = (process_scores$ATC_medians[idx] + 
+                                                process_scores$BOR_medians[idx] + 
+                                                process_scores$CON_medians[idx] + 
+                                                process_scores$MDN_medians[idx] + 
+                                                process_scores$MDS_medians[idx] + 
+                                                process_scores$PAN_medians[idx])/6 # Atlantic North Relevance
+process_scores_merge$Score_Subfunction_BOR  = process_scores$BOR_medians[idx] # Boreal Relevance
+process_scores_merge$Score_Subfunction_CON  = process_scores$CON_medians[idx] # Continental Relevance
+process_scores_merge$Score_Subfunction_LUS  = (process_scores$ATC_medians[idx] + 
+                                                 process_scores$BOR_medians[idx] + 
+                                                 process_scores$CON_medians[idx] + 
+                                                 process_scores$MDN_medians[idx] + 
+                                                 process_scores$MDS_medians[idx] + 
+                                                 process_scores$PAN_medians[idx])/6 # Lusitanian Relevance
+process_scores_merge$Score_Subfunction_MDM  = (process_scores$ATC_medians[idx] + 
+                                                 process_scores$BOR_medians[idx] + 
+                                                 process_scores$CON_medians[idx] + 
+                                                 process_scores$MDN_medians[idx] + 
+                                                 process_scores$MDS_medians[idx] + 
+                                                 process_scores$PAN_medians[idx])/6 # Mediterranean Mountains Relevance
+process_scores_merge$Score_Subfunction_MDN  = process_scores$MDN_medians[idx] # Mediterranean North Relevance
+process_scores_merge$Score_Subfunction_MDS  = process_scores$MDS_medians[idx] # Mediterranean South Relevance
+process_scores_merge$Score_Subfunction_NEM  = (process_scores$ATC_medians[idx] + 
+                                                 process_scores$BOR_medians[idx] + 
+                                                 process_scores$CON_medians[idx] + 
+                                                 process_scores$MDN_medians[idx] + 
+                                                 process_scores$MDS_medians[idx] + 
+                                                 process_scores$PAN_medians[idx])/6 # Nemoral Relevance
+process_scores_merge$Score_Subfunction_PAN  = process_scores$PAN_medians[idx] # Pannonian Relevance
+
+# Relevance score :: multiplication of the different scores for total relevance
+process_scores_merge = process_scores_merge %>% mutate(total_relevance = Score_Process*
+                                                         Score_Subfunction,
+                                                       relevance_agriculture = Score_Process_agri*
+                                                         Score_Subfunction_agr,
+                                                       relevance_forest = Score_Process_for*
+                                                         Score_Subfunction_for,
+                                                       relevance_urban = Score_Process_urb*
+                                                         Score_Subfunction_urb,
+                                                       relevance_ATC = Score_Process_AT*
+                                                         Score_Subfunction_AT,
+                                                       relevance_ATN = Score_Process_AN*
+                                                         Score_Subfunction_AN,
+                                                       relevance_BOR = Score_Process_BOR*
+                                                         Score_Subfunction_BOR,
+                                                       relevance_CON = Score_Process_CON*
+                                                         Score_Subfunction_CON,
+                                                       relevance_LUS = Score_Process_LUS*
+                                                         Score_Subfunction_LUS,
+                                                       relevance_MDM = Score_Process_MDM*
+                                                         Score_Subfunction_MDM,
+                                                       relevance_MDN = Score_Process_MDN*
+                                                         Score_Subfunction_MDN,
+                                                       relevance_MDS = Score_Process_MDS*
+                                                         Score_Subfunction_MDS,
+                                                       relevance_NEM = Score_Process_NEM*
+                                                         Score_Subfunction_NEM,
+                                                       relevance_PAN = Score_Process_PAN*
+                                                         Score_Subfunction_PAN)
+
+# Aggregate 
+process_scores_merge.1 = process_scores_merge %>% dplyr::group_by(Function,name) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
+                                                                                               relevance_agriculture = mean(relevance_agriculture,na.rm=TRUE),
+                                                                                               relevance_forest = mean(relevance_forest,na.rm=TRUE),
+                                                                                               relevance_urban = mean(relevance_urban,na.rm=TRUE),
+                                                                                               relevance_ATC = mean(relevance_ATC,na.rm=TRUE),
+                                                                                               relevance_ATN = mean(relevance_ATN,na.rm=TRUE),
+                                                                                               relevance_BOR = mean(relevance_BOR,na.rm=TRUE),
+                                                                                               relevance_CON = mean(relevance_CON,na.rm=TRUE),
+                                                                                               relevance_LUS = mean(relevance_LUS,na.rm=TRUE),
+                                                                                               relevance_MDM = mean(relevance_MDM,na.rm=TRUE),
+                                                                                               relevance_MDN = mean(relevance_MDN,na.rm=TRUE),
+                                                                                               relevance_MDS = mean(relevance_MDS,na.rm=TRUE),
+                                                                                               relevance_NEM = mean(relevance_NEM,na.rm=TRUE),
+                                                                                               relevance_PAN = mean(relevance_PAN,na.rm=TRUE))
+
+write.csv(process_scores_merge.1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations_processes.csv", row.names = FALSE)
+
+# FREQUENCY ----
+
+Cognitive_models    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Cognitive models_all.xlsx")
+
+Cognitive_models = Cognitive_models %>%
+  mutate(name = str_replace_all(process, c(
+    "volatilization" = "volatilisation",
+    "mineralization" = "mineralisation",
+    "depolymerization" = "depolymerisation",
+    "stabilization" = "stabilisation",
+    "salinization" = "salinisation",
+    "senescense" = "senescence",
+    "nitrogen fixation" = "n fixation",
+    "adsorption / desorption" = "adsorption/desorption",
+    "nitrification / denitrification" = "nitrification/denitrification",
+    "plant uptake-transpiration" = "plant uptake/transpiration",
+    "ponding / run-off" = "ponding/run-off",
+    "senescence and debris formation" = "senescense/debris formation" # correcting the typo
+  )))
+
+# Select columns in CM 
+Cognitive_models = Cognitive_models %>% select(c("function","process","type",
+                                                 "Agriculture","Forest","Urban"))
+# Reduce dataset
+Cognitive_models = Cognitive_models %>% filter(type %in% c("process"))
+
+# Total
+CM_total_FR = Cognitive_models %>% group_by(process) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_total_FR)[2] = "Total_frequency"
+colnames(CM_total_FR)[1] = "name"
+
+# Merge
+process_scores_merge.2 = merge(process_scores_merge.1,CM_total_FR, by= "name")
+write.csv(process_scores_merge.2,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_process.csv", row.names = FALSE)
 
 # TECHNICAL ASPECTS ----
 
@@ -679,15 +885,16 @@ write.csv(final_list,"C:/Users/lucia/OneDrive - Wageningen University & Research
 # LOGICAL SIEVE 2.0 ----
 
 # Call data ----
-Frequencies = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies.csv")
+Frequencies = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_updated.csv")
 Frequencies = Frequencies %>%
   mutate(across(where(is.character), tolower))
 Frequencies$parameter_name[1] = "cation exchange capacity"
 Frequencies$parameter_name[2] = "calcium : magnesium ratio"
 colnames(Frequencies)[1]      = "Parameter"
-Relevance_no_combinations = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations.csv")
+Relevance_no_combinations = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations_updated.csv")
 Relevance_no_combinations = Relevance_no_combinations %>%
   mutate(across(where(is.character), tolower))
+Frequencies_processes = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_process.csv")
 
 # PERTINENCE LEVEL ONE ----
 
@@ -708,12 +915,39 @@ Pertinece_1_CR = Pertinece_1_CR %>% mutate(total_pertinence = total_relevance*Fr
                                            MDS_pertinence = relevance_MDS*Frequency_Total/2,
                                            NEM_pertinence = relevance_NEM*Frequency_Total/2,
                                            PAN_pertinence = relevance_PAN*Frequency_Total/2)
-Pertinece_1_CR = Pertinece_1_CR %>% select(Parameter,total_pertinence,Agricultural_pertinence,
+Pertinece_1_CR = Pertinece_1_CR %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
                                            LUS_pertinence,MDN_pertinence,MDM_pertinence,
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
-write.csv(Pertinece_1_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR.csv", row.names = FALSE)
+# Add processes
+Frequencies_processes = Frequencies_processes %>% filter(Function == "climate regulation")
+Frequencies_processes_CR = Frequencies_processes %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
+                                           Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
+                                           Forest_pertinence = relevance_forest*Total_frequency/2,
+                                           Urban_pertinence = relevance_urban*Total_frequency/2,
+                                           ATC_pertinence = relevance_ATC*Total_frequency/2,
+                                           ATN_pertinence = relevance_ATN*Total_frequency/2,
+                                           BOR_pertinence = relevance_BOR*Total_frequency/2,
+                                           CON_pertinence = relevance_CON*Total_frequency/2,
+                                           LUS_pertinence = relevance_LUS*Total_frequency/2,
+                                           MDM_pertinence = relevance_MDM*Total_frequency/2,
+                                           MDN_pertinence = relevance_MDN*Total_frequency/2,
+                                           MDS_pertinence = relevance_MDS*Total_frequency/2,
+                                           NEM_pertinence = relevance_NEM*Total_frequency/2,
+                                           PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_CR = Frequencies_processes_CR %>% mutate(type = rep("process", nrow(Frequencies_processes_CR)))
+
+Pertinece_proc_CR = Frequencies_processes_CR %>% select(name,type,total_pertinence,Agricultural_pertinence,
+                                           Forest_pertinence,Urban_pertinence,ATC_pertinence,
+                                           ATN_pertinence,BOR_pertinence,CON_pertinence,
+                                           LUS_pertinence,MDN_pertinence,MDM_pertinence,
+                                           MDS_pertinence,NEM_pertinence,PAN_pertinence)
+colnames(Pertinece_proc_CR)[1] = "Parameter"
+
+Pertinence_total_CR = as.data.frame(rbind(Pertinece_1_CR,Pertinece_proc_CR))
+
+write.csv(Pertinence_total_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv", row.names = FALSE)
 
 # Nutrient Cycling
 Relevance_NC = Relevance_no_combinations %>% filter(Function == "nutrient cycling")
@@ -732,12 +966,39 @@ Pertinece_1_NC = Pertinece_1_NC %>% mutate(total_pertinence = total_relevance*Fr
                                            MDS_pertinence = relevance_MDS*Frequency_Total/2,
                                            NEM_pertinence = relevance_NEM*Frequency_Total/2,
                                            PAN_pertinence = relevance_PAN*Frequency_Total/2)
-Pertinece_1_NC = Pertinece_1_NC %>% select(Parameter,total_pertinence,Agricultural_pertinence,
+Pertinece_1_NC = Pertinece_1_NC %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
                                            LUS_pertinence,MDN_pertinence,MDM_pertinence,
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
-write.csv(Pertinece_1_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC.csv", row.names = FALSE)
+# Add processes
+Frequencies_processes_NC = Frequencies_processes %>% filter(Function == "nutrient cycling")
+Frequencies_processes_NC = Frequencies_processes_NC %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
+                                                            Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
+                                                            Forest_pertinence = relevance_forest*Total_frequency/2,
+                                                            Urban_pertinence = relevance_urban*Total_frequency/2,
+                                                            ATC_pertinence = relevance_ATC*Total_frequency/2,
+                                                            ATN_pertinence = relevance_ATN*Total_frequency/2,
+                                                            BOR_pertinence = relevance_BOR*Total_frequency/2,
+                                                            CON_pertinence = relevance_CON*Total_frequency/2,
+                                                            LUS_pertinence = relevance_LUS*Total_frequency/2,
+                                                            MDM_pertinence = relevance_MDM*Total_frequency/2,
+                                                            MDN_pertinence = relevance_MDN*Total_frequency/2,
+                                                            MDS_pertinence = relevance_MDS*Total_frequency/2,
+                                                            NEM_pertinence = relevance_NEM*Total_frequency/2,
+                                                            PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_NC = Frequencies_processes_NC %>% mutate(type = rep("process", nrow(Frequencies_processes_NC)))
+
+Pertinece_proc_NC = Frequencies_processes_NC %>% select(name,type,total_pertinence,Agricultural_pertinence,
+                                                        Forest_pertinence,Urban_pertinence,ATC_pertinence,
+                                                        ATN_pertinence,BOR_pertinence,CON_pertinence,
+                                                        LUS_pertinence,MDN_pertinence,MDM_pertinence,
+                                                        MDS_pertinence,NEM_pertinence,PAN_pertinence)
+colnames(Pertinece_proc_NC)[1] = "Parameter"
+
+Pertinence_total_NC = as.data.frame(rbind(Pertinece_1_NC,Pertinece_proc_NC))
+
+write.csv(Pertinence_total_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv", row.names = FALSE)
 
 # Habitat Provision
 Relevance_HP = Relevance_no_combinations %>% filter(Function == "habitat provision")
@@ -756,12 +1017,39 @@ Pertinece_1_HP = Pertinece_1_HP %>% mutate(total_pertinence = total_relevance*Fr
                                            MDS_pertinence = relevance_MDS*Frequency_Total/2,
                                            NEM_pertinence = relevance_NEM*Frequency_Total/2,
                                            PAN_pertinence = relevance_PAN*Frequency_Total/2)
-Pertinece_1_HP = Pertinece_1_HP %>% select(Parameter,total_pertinence,Agricultural_pertinence,
+Pertinece_1_HP = Pertinece_1_HP %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
                                            LUS_pertinence,MDN_pertinence,MDM_pertinence,
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
-write.csv(Pertinece_1_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP.csv", row.names = FALSE)
+# Add processes
+Frequencies_processes_HP = Frequencies_processes %>% filter(Function == "nutrient cycling")
+Frequencies_processes_HP = Frequencies_processes_HP %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
+                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
+                                                               Forest_pertinence = relevance_forest*Total_frequency/2,
+                                                               Urban_pertinence = relevance_urban*Total_frequency/2,
+                                                               ATC_pertinence = relevance_ATC*Total_frequency/2,
+                                                               ATN_pertinence = relevance_ATN*Total_frequency/2,
+                                                               BOR_pertinence = relevance_BOR*Total_frequency/2,
+                                                               CON_pertinence = relevance_CON*Total_frequency/2,
+                                                               LUS_pertinence = relevance_LUS*Total_frequency/2,
+                                                               MDM_pertinence = relevance_MDM*Total_frequency/2,
+                                                               MDN_pertinence = relevance_MDN*Total_frequency/2,
+                                                               MDS_pertinence = relevance_MDS*Total_frequency/2,
+                                                               NEM_pertinence = relevance_NEM*Total_frequency/2,
+                                                               PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_HP = Frequencies_processes_HP %>% mutate(type = rep("process", nrow(Frequencies_processes_HP)))
+
+Pertinece_proc_HP = Frequencies_processes_HP %>% select(name,type,total_pertinence,Agricultural_pertinence,
+                                                        Forest_pertinence,Urban_pertinence,ATC_pertinence,
+                                                        ATN_pertinence,BOR_pertinence,CON_pertinence,
+                                                        LUS_pertinence,MDN_pertinence,MDM_pertinence,
+                                                        MDS_pertinence,NEM_pertinence,PAN_pertinence)
+colnames(Pertinece_proc_HP)[1] = "Parameter"
+
+Pertinence_total_HP = as.data.frame(rbind(Pertinece_1_HP,Pertinece_proc_HP))
+
+write.csv(Pertinence_total_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv", row.names = FALSE)
 
 # Water Regulation and Filtration
 Relevance_WR = Relevance_no_combinations %>% filter(Function == "water regulation and filtration")
@@ -780,19 +1068,48 @@ Pertinece_1_WR = Pertinece_1_WR %>% mutate(total_pertinence = total_relevance*Fr
                                            MDS_pertinence = relevance_MDS*Frequency_Total/2,
                                            NEM_pertinence = relevance_NEM*Frequency_Total/2,
                                            PAN_pertinence = relevance_PAN*Frequency_Total/2)
-Pertinece_1_WR = Pertinece_1_WR %>% select(Parameter,total_pertinence,Agricultural_pertinence,
+Pertinece_1_WR = Pertinece_1_WR %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
                                            LUS_pertinence,MDN_pertinence,MDM_pertinence,
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
-write.csv(Pertinece_1_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR.csv", row.names = FALSE)
+# Add processes
+Frequencies_processes_WR = Frequencies_processes %>% filter(Function == "water regulation and filtration")
+Frequencies_processes_WR = Frequencies_processes_WR %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
+                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
+                                                               Forest_pertinence = relevance_forest*Total_frequency/2,
+                                                               Urban_pertinence = relevance_urban*Total_frequency/2,
+                                                               ATC_pertinence = relevance_ATC*Total_frequency/2,
+                                                               ATN_pertinence = relevance_ATN*Total_frequency/2,
+                                                               BOR_pertinence = relevance_BOR*Total_frequency/2,
+                                                               CON_pertinence = relevance_CON*Total_frequency/2,
+                                                               LUS_pertinence = relevance_LUS*Total_frequency/2,
+                                                               MDM_pertinence = relevance_MDM*Total_frequency/2,
+                                                               MDN_pertinence = relevance_MDN*Total_frequency/2,
+                                                               MDS_pertinence = relevance_MDS*Total_frequency/2,
+                                                               NEM_pertinence = relevance_NEM*Total_frequency/2,
+                                                               PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_WR = Frequencies_processes_WR %>% mutate(type = rep("process", nrow(Frequencies_processes_WR)))
+
+Pertinece_proc_WR = Frequencies_processes_WR %>% select(name,type,total_pertinence,Agricultural_pertinence,
+                                                        Forest_pertinence,Urban_pertinence,ATC_pertinence,
+                                                        ATN_pertinence,BOR_pertinence,CON_pertinence,
+                                                        LUS_pertinence,MDN_pertinence,MDM_pertinence,
+                                                        MDS_pertinence,NEM_pertinence,PAN_pertinence)
+colnames(Pertinece_proc_WR)[1] = "Parameter"
+
+Pertinence_total_WR = as.data.frame(rbind(Pertinece_1_WR,Pertinece_proc_WR))
+
+write.csv(Pertinence_total_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv", row.names = FALSE)
 
 # Selection of parameters ----
 
-ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR.csv")
-ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP.csv")
-ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC.csv")
-ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR.csv")
+ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv")
+ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv")
+ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv")
+ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv")
+Total = as.data.frame(rbind(ranking_parameters_CR,ranking_parameters_HP,ranking_parameters_NC,
+                            ranking_parameters_WR))
 
 key_WR = paste(ranking_parameters_WR$Parameter)
 key_HP = paste(ranking_parameters_HP$Parameter)
@@ -820,6 +1137,13 @@ Mixed_pertinence = Mixed_pertinence %>%
   mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
 
 sky1 = psel(Mixed_pertinence, high(WR) * high(HP) * high(NC) * high(CR))
+colnames(sky1)[1] = "Parameter"
+
+# Add type of indicators
+idx = match(sky1$Parameter,Total$Parameter)
+sky1$Type = Total$type[idx]
+
+write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve.csv", row.names = FALSE)
 
 # Parallel coordinate plot
 
@@ -834,30 +1158,38 @@ sky1 %>%
        x = "Criteria",
        y = "Normalized Score")
 
-# Spider plot
+# AGRICULTURAL PERTINENCE PLOT ----
 
-radar_data = rbind(apply(sky1[,2:5], 2, max),
-                   apply(sky1[,2:5], 2, min),sky1[,2:5])
-
-radarchart(radar_data,
-           axistype = 1,
-           pcol = rainbow(6),
-           plwd = 2,
-           title = "Radar Plot of the 6 Pareto-Optimal Parameters")
-legend("bottom", legend = sky1$all_keys, col = rainbow(6), lwd = 2, 
-       horiz = TRUE, cex = 0.6, bty = "n"
+Mixed_pertinence_agriculture = data.frame(all_keys,
+                                          WR = ranking_parameters_WR$Agricultural_pertinence[idx_WR],
+                                          HP = ranking_parameters_HP$Agricultural_pertinence[idx_HP],
+                                          NC = ranking_parameters_NC$Agricultural_pertinence[idx_NC],
+                                          CR = ranking_parameters_CR$Agricultural_pertinence[idx_CR]
 )
+
+# Replace na values with 0 
+Mixed_pertinence_agriculture = Mixed_pertinence_agriculture %>%
+  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+
+sky1 = psel(Mixed_pertinence_agriculture, high(WR) * high(HP) * high(NC) * high(CR))
+colnames(sky1)[1] = "Parameter"
+
+# Add type of indicators
+idx = match(sky1$Parameter,Total$Parameter)
+sky1$Type = Total$type[idx]
+
+write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_AGRICULTURE.csv", row.names = FALSE)
 
 # PERTINENCE LEVEL TWO ----
 
 # Call data
-ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR.csv")
-ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR.csv")
-ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC.csv")
-ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP.csv")
+ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv")
+ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv")
+ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv")
+ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv")
 Final_technical_aspects = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects.csv")
-Final_technical_aspects = Final_technical_aspects %>%
-  filter(!parameter_type %in% c("process") & !is.na(parameter_type))
+#Final_technical_aspects = Final_technical_aspects %>%
+#  filter(!parameter_type %in% c("process") & !is.na(parameter_type))
 
 # Refine the Final technical aspects dataset
 
@@ -901,7 +1233,7 @@ technical_criteria_CR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_CR = technical_criteria_CR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_CR.csv", row.names = FALSE)
+write.csv(technical_criteria_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_CR_updated.csv", row.names = FALSE)
 
 # Water Regulation
 common_params = semi_join(ranking_parameters_WR, Final_technical_aspects, by = "Parameter")
@@ -910,7 +1242,7 @@ technical_criteria_WR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_WR = technical_criteria_WR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_WR.csv", row.names = FALSE)
+write.csv(technical_criteria_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_WR_updated.csv", row.names = FALSE)
 
 # Habitat Provision
 common_params = semi_join(ranking_parameters_HP, Final_technical_aspects, by = "Parameter")
@@ -919,7 +1251,7 @@ technical_criteria_HP = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_HP = technical_criteria_HP %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_HP.csv", row.names = FALSE)
+write.csv(technical_criteria_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_HP_updated.csv", row.names = FALSE)
 
 # Nutrient Cycling
 common_params = semi_join(ranking_parameters_NC, Final_technical_aspects, by = "Parameter")
@@ -928,4 +1260,4 @@ technical_criteria_NC = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_NC = technical_criteria_NC %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_NC.csv", row.names = FALSE)
+write.csv(technical_criteria_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_NC_updated.csv", row.names = FALSE)
