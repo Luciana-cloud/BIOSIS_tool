@@ -300,34 +300,34 @@ test_table1$Score_Subfunction_PAN  = process_scores$PAN_medians[idx] # Pannonian
 write.csv(test_table1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Preliminary_relevance.csv", row.names = FALSE)
 
 # Relevance score :: multiplication of the different scores for total relevance
-test_table1.1 = test_table1 %>% mutate(total_relevance = parameter_relevace*Score_Process*
-                                       Score_Subfunction,
-                                     relevance_agriculture = parameter_relevace_agr*Score_Process_agri*
-                                       Score_Subfunction_agr,
-                                     relevance_forest = parameter_relevace_for*Score_Process_for*
-                                       Score_Subfunction_for,
-                                     relevance_urban = parameter_relevace_urb*Score_Process_urb*
-                                       Score_Subfunction_urb,
-                                     relevance_ATC = parameter_relevace_AC*Score_Process_AT*
-                                       Score_Subfunction_AT,
-                                     relevance_ATN = parameter_relevace_AN*Score_Process_AN*
-                                       Score_Subfunction_AN,
-                                     relevance_BOR = parameter_relevace_Boreal*Score_Process_BOR*
-                                       Score_Subfunction_BOR,
-                                     relevance_CON = parameter_relevace_Continental*Score_Process_CON*
-                                       Score_Subfunction_CON,
-                                     relevance_LUS = parameter_relevace_Lusitanian*Score_Process_LUS*
-                                       Score_Subfunction_LUS,
-                                     relevance_MDM = parameter_relevace_MM*Score_Process_MDM*
-                                       Score_Subfunction_MDM,
-                                     relevance_MDN = parameter_relevace_MN*Score_Process_MDN*
+test_table1.1 = test_table1 %>% mutate(total_relevance = 4*parameter_relevace*Score_Process*
+                                       Score_Subfunction/3,
+                                     relevance_agriculture = 4*parameter_relevace_agr*Score_Process_agri*
+                                       Score_Subfunction_agr/3,
+                                     relevance_forest = 4*parameter_relevace_for*Score_Process_for*
+                                       Score_Subfunction_for/3,
+                                     relevance_urban = 4*parameter_relevace_urb*Score_Process_urb*
+                                       Score_Subfunction_urb/3,
+                                     relevance_ATC = 4*parameter_relevace_AC*Score_Process_AT*
+                                       Score_Subfunction_AT/3,
+                                     relevance_ATN = 4*parameter_relevace_AN*Score_Process_AN*
+                                       Score_Subfunction_AN/3,
+                                     relevance_BOR = 4*parameter_relevace_Boreal*Score_Process_BOR*
+                                       Score_Subfunction_BOR/3,
+                                     relevance_CON = 4*parameter_relevace_Continental*Score_Process_CON*
+                                       Score_Subfunction_CON/3,
+                                     relevance_LUS = 4*parameter_relevace_Lusitanian*Score_Process_LUS*
+                                       Score_Subfunction_LUS/3,
+                                     relevance_MDM = 4*parameter_relevace_MM*Score_Process_MDM*
+                                       Score_Subfunction_MDM/3,
+                                     relevance_MDN = 4*parameter_relevace_MN*Score_Process_MDN*
                                        Score_Subfunction_MDN,
-                                     relevance_MDS = parameter_relevace_MS*Score_Process_MDS*
-                                       Score_Subfunction_MDS,
-                                     relevance_NEM = parameter_relevace_Nemoral*Score_Process_NEM*
-                                       Score_Subfunction_NEM,
-                                     relevance_PAN = parameter_relevace_Pannonian*Score_Process_PAN*
-                                       Score_Subfunction_PAN)
+                                     relevance_MDS = 4*parameter_relevace_MS*Score_Process_MDS*
+                                       Score_Subfunction_MDS/3,
+                                     relevance_NEM = 4*parameter_relevace_Nemoral*Score_Process_NEM*
+                                       Score_Subfunction_NEM/3,
+                                     relevance_PAN = 4*parameter_relevace_Pannonian*Score_Process_PAN*
+                                       Score_Subfunction_PAN/3)
 
 # Aggregate 
 test_table2 = test_table1.1 %>% dplyr::group_by(folder_code,Parameter) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
@@ -554,34 +554,34 @@ process_scores_merge$Score_Subfunction_NEM  = (process_scores$ATC_medians[idx] +
 process_scores_merge$Score_Subfunction_PAN  = process_scores$PAN_medians[idx] # Pannonian Relevance
 
 # Relevance score :: multiplication of the different scores for total relevance
-process_scores_merge = process_scores_merge %>% mutate(total_relevance = Score_Process*
-                                                         Score_Subfunction,
-                                                       relevance_agriculture = Score_Process_agri*
-                                                         Score_Subfunction_agr,
-                                                       relevance_forest = Score_Process_for*
-                                                         Score_Subfunction_for,
-                                                       relevance_urban = Score_Process_urb*
-                                                         Score_Subfunction_urb,
-                                                       relevance_ATC = Score_Process_AT*
-                                                         Score_Subfunction_AT,
-                                                       relevance_ATN = Score_Process_AN*
-                                                         Score_Subfunction_AN,
-                                                       relevance_BOR = Score_Process_BOR*
-                                                         Score_Subfunction_BOR,
-                                                       relevance_CON = Score_Process_CON*
-                                                         Score_Subfunction_CON,
+process_scores_merge = process_scores_merge %>% mutate(total_relevance = 4*Score_Process*
+                                                         Score_Subfunction/3,
+                                                       relevance_agriculture = 4*Score_Process_agri*
+                                                         Score_Subfunction_agr/3,
+                                                       relevance_forest = 4*Score_Process_for*
+                                                         Score_Subfunction_for/3,
+                                                       relevance_urban = 4*Score_Process_urb*
+                                                         Score_Subfunction_urb/3,
+                                                       relevance_ATC = 4*Score_Process_AT*
+                                                         Score_Subfunction_AT/3,
+                                                       relevance_ATN = 4*Score_Process_AN*
+                                                         Score_Subfunction_AN/3,
+                                                       relevance_BOR = 4*Score_Process_BOR*
+                                                         Score_Subfunction_BOR/3,
+                                                       relevance_CON = 4*Score_Process_CON*
+                                                         Score_Subfunction_CON/3,
                                                        relevance_LUS = Score_Process_LUS*
-                                                         Score_Subfunction_LUS,
-                                                       relevance_MDM = Score_Process_MDM*
-                                                         Score_Subfunction_MDM,
-                                                       relevance_MDN = Score_Process_MDN*
-                                                         Score_Subfunction_MDN,
-                                                       relevance_MDS = Score_Process_MDS*
-                                                         Score_Subfunction_MDS,
-                                                       relevance_NEM = Score_Process_NEM*
-                                                         Score_Subfunction_NEM,
-                                                       relevance_PAN = Score_Process_PAN*
-                                                         Score_Subfunction_PAN)
+                                                         Score_Subfunction_LUS/3,
+                                                       relevance_MDM = 4*Score_Process_MDM*
+                                                         Score_Subfunction_MDM/3,
+                                                       relevance_MDN = 4*Score_Process_MDN*
+                                                         Score_Subfunction_MDN/3,
+                                                       relevance_MDS = 4*Score_Process_MDS*
+                                                         Score_Subfunction_MDS/3,
+                                                       relevance_NEM = 4*Score_Process_NEM*
+                                                         Score_Subfunction_NEM/3,
+                                                       relevance_PAN = 4*Score_Process_PAN*
+                                                         Score_Subfunction_PAN/3)
 
 # Aggregate 
 process_scores_merge.1 = process_scores_merge %>% dplyr::group_by(Function,name) %>% summarise(total_relevance = mean(total_relevance,na.rm=TRUE),
@@ -601,7 +601,7 @@ process_scores_merge.1 = process_scores_merge %>% dplyr::group_by(Function,name)
 
 write.csv(process_scores_merge.1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_relevance_no_combinations_processes.csv", row.names = FALSE)
 
-# FREQUENCY ----
+# Frequency processes
 
 Cognitive_models    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Cognitive models_all.xlsx")
 
@@ -641,9 +641,8 @@ write.csv(process_scores_merge.2,"C:/Users/lucia/OneDrive - Wageningen Universit
 # Call data 
 scoring_criteria = read_excel("data/Method list assessment file.xlsx",
                               sheet = "Scoring Criteria", range = "B22:M53")
-method_list      = read_excel("data/Method list assessment file.xlsx",
-                              sheet = "Method list", range = "A2:AM1019")
-
+method_list    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Method list assessment file_v2.xlsx",
+                            sheet = "Method list", range = "A2:AR1019")
 # Test for Applicability & Discrimination 
 
 # Agriculture
@@ -880,7 +879,7 @@ final_list       = final_list %>% mutate(deployment = case_when(`Is this method 
 # Replace na values with 0 
 final_list <- final_list %>%
   mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
-write.csv(final_list,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects.csv", row.names = FALSE)
+write.csv(final_list,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects_updated.csv", row.names = FALSE)
 
 # LOGICAL SIEVE 2.0 ----
 
@@ -901,20 +900,20 @@ Frequencies_processes = read.csv("C:/Users/lucia/OneDrive - Wageningen Universit
 # Climate Regulation
 Relevance_CR = Relevance_no_combinations %>% filter(Function == "climate regulation")
 Pertinece_1_CR = merge(Relevance_CR, Frequencies, by = "Parameter")
-Pertinece_1_CR = Pertinece_1_CR %>% mutate(total_pertinence = total_relevance*Frequency_Total/2,
-                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr/2,
-                                           Forest_pertinence = relevance_forest*Frequency_For/2,
-                                           Urban_pertinence = relevance_urban*Frequency_Urb/2,
-                                           ATC_pertinence = relevance_ATC*Frequency_Total/2,
-                                           ATN_pertinence = relevance_ATN*Frequency_Total/2,
-                                           BOR_pertinence = relevance_BOR*Frequency_Total/2,
-                                           CON_pertinence = relevance_CON*Frequency_Total/2,
-                                           LUS_pertinence = relevance_LUS*Frequency_Total/2,
-                                           MDM_pertinence = relevance_MDM*Frequency_Total/2,
-                                           MDN_pertinence = relevance_MDN*Frequency_Total/2,
-                                           MDS_pertinence = relevance_MDS*Frequency_Total/2,
-                                           NEM_pertinence = relevance_NEM*Frequency_Total/2,
-                                           PAN_pertinence = relevance_PAN*Frequency_Total/2)
+Pertinece_1_CR = Pertinece_1_CR %>% mutate(total_pertinence = total_relevance*Frequency_Total,
+                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr,
+                                           Forest_pertinence = relevance_forest*Frequency_For,
+                                           Urban_pertinence = relevance_urban*Frequency_Urb,
+                                           ATC_pertinence = relevance_ATC*Frequency_Total,
+                                           ATN_pertinence = relevance_ATN*Frequency_Total,
+                                           BOR_pertinence = relevance_BOR*Frequency_Total,
+                                           CON_pertinence = relevance_CON*Frequency_Total,
+                                           LUS_pertinence = relevance_LUS*Frequency_Total,
+                                           MDM_pertinence = relevance_MDM*Frequency_Total,
+                                           MDN_pertinence = relevance_MDN*Frequency_Total,
+                                           MDS_pertinence = relevance_MDS*Frequency_Total,
+                                           NEM_pertinence = relevance_NEM*Frequency_Total,
+                                           PAN_pertinence = relevance_PAN*Frequency_Total)
 Pertinece_1_CR = Pertinece_1_CR %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
@@ -922,20 +921,20 @@ Pertinece_1_CR = Pertinece_1_CR %>% select(Parameter,type,total_pertinence,Agric
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
 # Add processes
 Frequencies_processes = Frequencies_processes %>% filter(Function == "climate regulation")
-Frequencies_processes_CR = Frequencies_processes %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
-                                           Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
-                                           Forest_pertinence = relevance_forest*Total_frequency/2,
-                                           Urban_pertinence = relevance_urban*Total_frequency/2,
-                                           ATC_pertinence = relevance_ATC*Total_frequency/2,
-                                           ATN_pertinence = relevance_ATN*Total_frequency/2,
-                                           BOR_pertinence = relevance_BOR*Total_frequency/2,
-                                           CON_pertinence = relevance_CON*Total_frequency/2,
-                                           LUS_pertinence = relevance_LUS*Total_frequency/2,
-                                           MDM_pertinence = relevance_MDM*Total_frequency/2,
-                                           MDN_pertinence = relevance_MDN*Total_frequency/2,
-                                           MDS_pertinence = relevance_MDS*Total_frequency/2,
-                                           NEM_pertinence = relevance_NEM*Total_frequency/2,
-                                           PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_CR = Frequencies_processes %>% mutate(total_pertinence = total_relevance*Total_frequency,
+                                           Agricultural_pertinence = relevance_agriculture*Total_frequency,
+                                           Forest_pertinence = relevance_forest*Total_frequency,
+                                           Urban_pertinence = relevance_urban*Total_frequency,
+                                           ATC_pertinence = relevance_ATC*Total_frequency,
+                                           ATN_pertinence = relevance_ATN*Total_frequency,
+                                           BOR_pertinence = relevance_BOR*Total_frequency,
+                                           CON_pertinence = relevance_CON*Total_frequency,
+                                           LUS_pertinence = relevance_LUS*Total_frequency,
+                                           MDM_pertinence = relevance_MDM*Total_frequency,
+                                           MDN_pertinence = relevance_MDN*Total_frequency,
+                                           MDS_pertinence = relevance_MDS*Total_frequency,
+                                           NEM_pertinence = relevance_NEM*Total_frequency,
+                                           PAN_pertinence = relevance_PAN*Total_frequency)
 Frequencies_processes_CR = Frequencies_processes_CR %>% mutate(type = rep("process", nrow(Frequencies_processes_CR)))
 
 Pertinece_proc_CR = Frequencies_processes_CR %>% select(name,type,total_pertinence,Agricultural_pertinence,
@@ -947,25 +946,25 @@ colnames(Pertinece_proc_CR)[1] = "Parameter"
 
 Pertinence_total_CR = as.data.frame(rbind(Pertinece_1_CR,Pertinece_proc_CR))
 
-write.csv(Pertinence_total_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv", row.names = FALSE)
+write.csv(Pertinence_total_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_new.csv", row.names = FALSE)
 
 # Nutrient Cycling
 Relevance_NC = Relevance_no_combinations %>% filter(Function == "nutrient cycling")
 Pertinece_1_NC = merge(Relevance_NC, Frequencies, by = "Parameter")
-Pertinece_1_NC = Pertinece_1_NC %>% mutate(total_pertinence = total_relevance*Frequency_Total/2,
-                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr/2,
-                                           Forest_pertinence = relevance_forest*Frequency_For/2,
-                                           Urban_pertinence = relevance_urban*Frequency_Urb/2,
-                                           ATC_pertinence = relevance_ATC*Frequency_Total/2,
-                                           ATN_pertinence = relevance_ATN*Frequency_Total/2,
-                                           BOR_pertinence = relevance_BOR*Frequency_Total/2,
-                                           CON_pertinence = relevance_CON*Frequency_Total/2,
-                                           LUS_pertinence = relevance_LUS*Frequency_Total/2,
-                                           MDM_pertinence = relevance_MDM*Frequency_Total/2,
-                                           MDN_pertinence = relevance_MDN*Frequency_Total/2,
-                                           MDS_pertinence = relevance_MDS*Frequency_Total/2,
-                                           NEM_pertinence = relevance_NEM*Frequency_Total/2,
-                                           PAN_pertinence = relevance_PAN*Frequency_Total/2)
+Pertinece_1_NC = Pertinece_1_NC %>% mutate(total_pertinence = total_relevance*Frequency_Total,
+                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr,
+                                           Forest_pertinence = relevance_forest*Frequency_For,
+                                           Urban_pertinence = relevance_urban*Frequency_Urb,
+                                           ATC_pertinence = relevance_ATC*Frequency_Total,
+                                           ATN_pertinence = relevance_ATN*Frequency_Total,
+                                           BOR_pertinence = relevance_BOR*Frequency_Total,
+                                           CON_pertinence = relevance_CON*Frequency_Total,
+                                           LUS_pertinence = relevance_LUS*Frequency_Total,
+                                           MDM_pertinence = relevance_MDM*Frequency_Total,
+                                           MDN_pertinence = relevance_MDN*Frequency_Total,
+                                           MDS_pertinence = relevance_MDS*Frequency_Total,
+                                           NEM_pertinence = relevance_NEM*Frequency_Total,
+                                           PAN_pertinence = relevance_PAN*Frequency_Total)
 Pertinece_1_NC = Pertinece_1_NC %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
@@ -973,20 +972,20 @@ Pertinece_1_NC = Pertinece_1_NC %>% select(Parameter,type,total_pertinence,Agric
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
 # Add processes
 Frequencies_processes_NC = Frequencies_processes %>% filter(Function == "nutrient cycling")
-Frequencies_processes_NC = Frequencies_processes_NC %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
-                                                            Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
-                                                            Forest_pertinence = relevance_forest*Total_frequency/2,
-                                                            Urban_pertinence = relevance_urban*Total_frequency/2,
-                                                            ATC_pertinence = relevance_ATC*Total_frequency/2,
-                                                            ATN_pertinence = relevance_ATN*Total_frequency/2,
-                                                            BOR_pertinence = relevance_BOR*Total_frequency/2,
-                                                            CON_pertinence = relevance_CON*Total_frequency/2,
-                                                            LUS_pertinence = relevance_LUS*Total_frequency/2,
-                                                            MDM_pertinence = relevance_MDM*Total_frequency/2,
-                                                            MDN_pertinence = relevance_MDN*Total_frequency/2,
-                                                            MDS_pertinence = relevance_MDS*Total_frequency/2,
-                                                            NEM_pertinence = relevance_NEM*Total_frequency/2,
-                                                            PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_NC = Frequencies_processes_NC %>% mutate(total_pertinence = total_relevance*Total_frequency,
+                                                            Agricultural_pertinence = relevance_agriculture*Total_frequency,
+                                                            Forest_pertinence = relevance_forest*Total_frequency,
+                                                            Urban_pertinence = relevance_urban*Total_frequency,
+                                                            ATC_pertinence = relevance_ATC*Total_frequency,
+                                                            ATN_pertinence = relevance_ATN*Total_frequency,
+                                                            BOR_pertinence = relevance_BOR*Total_frequency,
+                                                            CON_pertinence = relevance_CON*Total_frequency,
+                                                            LUS_pertinence = relevance_LUS*Total_frequency,
+                                                            MDM_pertinence = relevance_MDM*Total_frequency,
+                                                            MDN_pertinence = relevance_MDN*Total_frequency,
+                                                            MDS_pertinence = relevance_MDS*Total_frequency,
+                                                            NEM_pertinence = relevance_NEM*Total_frequency,
+                                                            PAN_pertinence = relevance_PAN*Total_frequency)
 Frequencies_processes_NC = Frequencies_processes_NC %>% mutate(type = rep("process", nrow(Frequencies_processes_NC)))
 
 Pertinece_proc_NC = Frequencies_processes_NC %>% select(name,type,total_pertinence,Agricultural_pertinence,
@@ -998,25 +997,25 @@ colnames(Pertinece_proc_NC)[1] = "Parameter"
 
 Pertinence_total_NC = as.data.frame(rbind(Pertinece_1_NC,Pertinece_proc_NC))
 
-write.csv(Pertinence_total_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv", row.names = FALSE)
+write.csv(Pertinence_total_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_new.csv", row.names = FALSE)
 
 # Habitat Provision
 Relevance_HP = Relevance_no_combinations %>% filter(Function == "habitat provision")
 Pertinece_1_HP = merge(Relevance_HP, Frequencies, by = "Parameter")
-Pertinece_1_HP = Pertinece_1_HP %>% mutate(total_pertinence = total_relevance*Frequency_Total/2,
-                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr/2,
-                                           Forest_pertinence = relevance_forest*Frequency_For/2,
-                                           Urban_pertinence = relevance_urban*Frequency_Urb/2,
-                                           ATC_pertinence = relevance_ATC*Frequency_Total/2,
-                                           ATN_pertinence = relevance_ATN*Frequency_Total/2,
-                                           BOR_pertinence = relevance_BOR*Frequency_Total/2,
-                                           CON_pertinence = relevance_CON*Frequency_Total/2,
-                                           LUS_pertinence = relevance_LUS*Frequency_Total/2,
-                                           MDM_pertinence = relevance_MDM*Frequency_Total/2,
-                                           MDN_pertinence = relevance_MDN*Frequency_Total/2,
-                                           MDS_pertinence = relevance_MDS*Frequency_Total/2,
-                                           NEM_pertinence = relevance_NEM*Frequency_Total/2,
-                                           PAN_pertinence = relevance_PAN*Frequency_Total/2)
+Pertinece_1_HP = Pertinece_1_HP %>% mutate(total_pertinence = total_relevance*Frequency_Total,
+                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr,
+                                           Forest_pertinence = relevance_forest*Frequency_For,
+                                           Urban_pertinence = relevance_urban*Frequency_Urb,
+                                           ATC_pertinence = relevance_ATC*Frequency_Total,
+                                           ATN_pertinence = relevance_ATN*Frequency_Total,
+                                           BOR_pertinence = relevance_BOR*Frequency_Total,
+                                           CON_pertinence = relevance_CON*Frequency_Total,
+                                           LUS_pertinence = relevance_LUS*Frequency_Total,
+                                           MDM_pertinence = relevance_MDM*Frequency_Total,
+                                           MDN_pertinence = relevance_MDN*Frequency_Total,
+                                           MDS_pertinence = relevance_MDS*Frequency_Total,
+                                           NEM_pertinence = relevance_NEM*Frequency_Total,
+                                           PAN_pertinence = relevance_PAN*Frequency_Total)
 Pertinece_1_HP = Pertinece_1_HP %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
@@ -1024,20 +1023,20 @@ Pertinece_1_HP = Pertinece_1_HP %>% select(Parameter,type,total_pertinence,Agric
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
 # Add processes
 Frequencies_processes_HP = Frequencies_processes %>% filter(Function == "nutrient cycling")
-Frequencies_processes_HP = Frequencies_processes_HP %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
-                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
-                                                               Forest_pertinence = relevance_forest*Total_frequency/2,
-                                                               Urban_pertinence = relevance_urban*Total_frequency/2,
-                                                               ATC_pertinence = relevance_ATC*Total_frequency/2,
-                                                               ATN_pertinence = relevance_ATN*Total_frequency/2,
-                                                               BOR_pertinence = relevance_BOR*Total_frequency/2,
-                                                               CON_pertinence = relevance_CON*Total_frequency/2,
-                                                               LUS_pertinence = relevance_LUS*Total_frequency/2,
-                                                               MDM_pertinence = relevance_MDM*Total_frequency/2,
-                                                               MDN_pertinence = relevance_MDN*Total_frequency/2,
-                                                               MDS_pertinence = relevance_MDS*Total_frequency/2,
-                                                               NEM_pertinence = relevance_NEM*Total_frequency/2,
-                                                               PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_HP = Frequencies_processes_HP %>% mutate(total_pertinence = total_relevance*Total_frequency,
+                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency,
+                                                               Forest_pertinence = relevance_forest*Total_frequency,
+                                                               Urban_pertinence = relevance_urban*Total_frequency,
+                                                               ATC_pertinence = relevance_ATC*Total_frequency,
+                                                               ATN_pertinence = relevance_ATN*Total_frequency,
+                                                               BOR_pertinence = relevance_BOR*Total_frequency,
+                                                               CON_pertinence = relevance_CON*Total_frequency,
+                                                               LUS_pertinence = relevance_LUS*Total_frequency,
+                                                               MDM_pertinence = relevance_MDM*Total_frequency,
+                                                               MDN_pertinence = relevance_MDN*Total_frequency,
+                                                               MDS_pertinence = relevance_MDS*Total_frequency,
+                                                               NEM_pertinence = relevance_NEM*Total_frequency,
+                                                               PAN_pertinence = relevance_PAN*Total_frequency)
 Frequencies_processes_HP = Frequencies_processes_HP %>% mutate(type = rep("process", nrow(Frequencies_processes_HP)))
 
 Pertinece_proc_HP = Frequencies_processes_HP %>% select(name,type,total_pertinence,Agricultural_pertinence,
@@ -1049,25 +1048,25 @@ colnames(Pertinece_proc_HP)[1] = "Parameter"
 
 Pertinence_total_HP = as.data.frame(rbind(Pertinece_1_HP,Pertinece_proc_HP))
 
-write.csv(Pertinence_total_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv", row.names = FALSE)
+write.csv(Pertinence_total_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_new.csv", row.names = FALSE)
 
 # Water Regulation and Filtration
 Relevance_WR = Relevance_no_combinations %>% filter(Function == "water regulation and filtration")
 Pertinece_1_WR = merge(Relevance_WR, Frequencies, by = "Parameter")
-Pertinece_1_WR = Pertinece_1_WR %>% mutate(total_pertinence = total_relevance*Frequency_Total/2,
-                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr/2,
-                                           Forest_pertinence = relevance_forest*Frequency_For/2,
-                                           Urban_pertinence = relevance_urban*Frequency_Urb/2,
-                                           ATC_pertinence = relevance_ATC*Frequency_Total/2,
-                                           ATN_pertinence = relevance_ATN*Frequency_Total/2,
-                                           BOR_pertinence = relevance_BOR*Frequency_Total/2,
-                                           CON_pertinence = relevance_CON*Frequency_Total/2,
-                                           LUS_pertinence = relevance_LUS*Frequency_Total/2,
-                                           MDM_pertinence = relevance_MDM*Frequency_Total/2,
-                                           MDN_pertinence = relevance_MDN*Frequency_Total/2,
-                                           MDS_pertinence = relevance_MDS*Frequency_Total/2,
-                                           NEM_pertinence = relevance_NEM*Frequency_Total/2,
-                                           PAN_pertinence = relevance_PAN*Frequency_Total/2)
+Pertinece_1_WR = Pertinece_1_WR %>% mutate(total_pertinence = total_relevance*Frequency_Total,
+                                           Agricultural_pertinence = relevance_agriculture*Frequency_Agr,
+                                           Forest_pertinence = relevance_forest*Frequency_For,
+                                           Urban_pertinence = relevance_urban*Frequency_Urb,
+                                           ATC_pertinence = relevance_ATC*Frequency_Total,
+                                           ATN_pertinence = relevance_ATN*Frequency_Total,
+                                           BOR_pertinence = relevance_BOR*Frequency_Total,
+                                           CON_pertinence = relevance_CON*Frequency_Total,
+                                           LUS_pertinence = relevance_LUS*Frequency_Total,
+                                           MDM_pertinence = relevance_MDM*Frequency_Total,
+                                           MDN_pertinence = relevance_MDN*Frequency_Total,
+                                           MDS_pertinence = relevance_MDS*Frequency_Total,
+                                           NEM_pertinence = relevance_NEM*Frequency_Total,
+                                           PAN_pertinence = relevance_PAN*Frequency_Total)
 Pertinece_1_WR = Pertinece_1_WR %>% select(Parameter,type,total_pertinence,Agricultural_pertinence,
                                            Forest_pertinence,Urban_pertinence,ATC_pertinence,
                                            ATN_pertinence,BOR_pertinence,CON_pertinence,
@@ -1075,20 +1074,20 @@ Pertinece_1_WR = Pertinece_1_WR %>% select(Parameter,type,total_pertinence,Agric
                                            MDS_pertinence,NEM_pertinence,PAN_pertinence)
 # Add processes
 Frequencies_processes_WR = Frequencies_processes %>% filter(Function == "water regulation and filtration")
-Frequencies_processes_WR = Frequencies_processes_WR %>% mutate(total_pertinence = total_relevance*Total_frequency/2,
-                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency/2,
-                                                               Forest_pertinence = relevance_forest*Total_frequency/2,
-                                                               Urban_pertinence = relevance_urban*Total_frequency/2,
-                                                               ATC_pertinence = relevance_ATC*Total_frequency/2,
-                                                               ATN_pertinence = relevance_ATN*Total_frequency/2,
-                                                               BOR_pertinence = relevance_BOR*Total_frequency/2,
-                                                               CON_pertinence = relevance_CON*Total_frequency/2,
-                                                               LUS_pertinence = relevance_LUS*Total_frequency/2,
-                                                               MDM_pertinence = relevance_MDM*Total_frequency/2,
-                                                               MDN_pertinence = relevance_MDN*Total_frequency/2,
-                                                               MDS_pertinence = relevance_MDS*Total_frequency/2,
-                                                               NEM_pertinence = relevance_NEM*Total_frequency/2,
-                                                               PAN_pertinence = relevance_PAN*Total_frequency/2)
+Frequencies_processes_WR = Frequencies_processes_WR %>% mutate(total_pertinence = total_relevance*Total_frequency,
+                                                               Agricultural_pertinence = relevance_agriculture*Total_frequency,
+                                                               Forest_pertinence = relevance_forest*Total_frequency,
+                                                               Urban_pertinence = relevance_urban*Total_frequency,
+                                                               ATC_pertinence = relevance_ATC*Total_frequency,
+                                                               ATN_pertinence = relevance_ATN*Total_frequency,
+                                                               BOR_pertinence = relevance_BOR*Total_frequency,
+                                                               CON_pertinence = relevance_CON*Total_frequency,
+                                                               LUS_pertinence = relevance_LUS*Total_frequency,
+                                                               MDM_pertinence = relevance_MDM*Total_frequency,
+                                                               MDN_pertinence = relevance_MDN*Total_frequency,
+                                                               MDS_pertinence = relevance_MDS*Total_frequency,
+                                                               NEM_pertinence = relevance_NEM*Total_frequency,
+                                                               PAN_pertinence = relevance_PAN*Total_frequency)
 Frequencies_processes_WR = Frequencies_processes_WR %>% mutate(type = rep("process", nrow(Frequencies_processes_WR)))
 
 Pertinece_proc_WR = Frequencies_processes_WR %>% select(name,type,total_pertinence,Agricultural_pertinence,
@@ -1100,14 +1099,14 @@ colnames(Pertinece_proc_WR)[1] = "Parameter"
 
 Pertinence_total_WR = as.data.frame(rbind(Pertinece_1_WR,Pertinece_proc_WR))
 
-write.csv(Pertinence_total_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv", row.names = FALSE)
+write.csv(Pertinence_total_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_new.csv", row.names = FALSE)
 
 # Selection of parameters ----
 
-ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv")
-ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv")
-ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv")
-ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv")
+ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_new.csv")
+ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_new.csv")
+ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_new.csv")
+ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_new.csv")
 Total = as.data.frame(rbind(ranking_parameters_CR,ranking_parameters_HP,ranking_parameters_NC,
                             ranking_parameters_WR))
 
@@ -1143,7 +1142,7 @@ colnames(sky1)[1] = "Parameter"
 idx = match(sky1$Parameter,Total$Parameter)
 sky1$Type = Total$type[idx]
 
-write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve.csv", row.names = FALSE)
+write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_updated.csv", row.names = FALSE)
 
 # Parallel coordinate plot
 
@@ -1178,26 +1177,26 @@ colnames(sky1)[1] = "Parameter"
 idx = match(sky1$Parameter,Total$Parameter)
 sky1$Type = Total$type[idx]
 
-write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_AGRICULTURE.csv", row.names = FALSE)
+write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_AGRICULTURE_updated.csv", row.names = FALSE)
 
 # PERTINENCE LEVEL TWO ----
 
 # Call data
-ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_updated.csv")
-ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_updated.csv")
-ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_updated.csv")
-ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_updated.csv")
-Final_technical_aspects = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects.csv")
+ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_new.csv")
+ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_new.csv")
+ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_new.csv")
+ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_new.csv")
+Final_technical_aspects = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects_updated.csv")
 #Final_technical_aspects = Final_technical_aspects %>%
 #  filter(!parameter_type %in% c("process") & !is.na(parameter_type))
 
 # Refine the Final technical aspects dataset
 
-Final_technical_aspects = Final_technical_aspects %>% mutate(sample_collection = rowSums(Final_technical_aspects[,44:47])/4,
-                                                             storage.amount.archivability = rowSums(Final_technical_aspects[,48:50])/3,
-                                                             data.storage = rowSums(Final_technical_aspects[,57:60])/4,
-                                                             spatial.resolution = rowSums(Final_technical_aspects[,62:63])/2,
-                                                             spectral.resolution = rowSums(Final_technical_aspects[,64:65])/2)
+Final_technical_aspects = Final_technical_aspects %>% mutate(sample_collection = rowSums(Final_technical_aspects[,49:52])/4,
+                                                             storage.amount.archivability = rowSums(Final_technical_aspects[,53:55])/3,
+                                                             data.storage = rowSums(Final_technical_aspects[,62:65])/4,
+                                                             spatial.resolution = rowSums(Final_technical_aspects[,67:68])/2,
+                                                             spectral.resolution = rowSums(Final_technical_aspects[,69:70])/2)
 Final_technical_aspects = Final_technical_aspects %>% select("parameter_type","parameter_name",
                                                              "Indicator","Method_Type","Method_Name",
                                                              "Reference","agriculture","urban",
@@ -1209,17 +1208,19 @@ Final_technical_aspects = Final_technical_aspects %>% select("parameter_type","p
                                                              "temporal.resolution","spatial.resolution",
                                                              "spectral.resolution","interpretation",
                                                              "data.license","software","reproducibility",
-                                                             "deployment")
-Final_technical_aspects$parameter_name[3:10]  = "acari"
-Final_technical_aspects$parameter_name[36:39] = "ants"
-Final_technical_aspects$parameter_name[47:49] = "bacteria"
-Final_technical_aspects$parameter_name[77:80] = "calcium : magnesium ratio"
-Final_technical_aspects$parameter_name[87:100] = "cation exchange capacity"
-Final_technical_aspects$parameter_name[122:125] = "collembola"
-Final_technical_aspects$parameter_name[212] = "fungi"
-Final_technical_aspects$parameter_name[300:308] = "nematodes"
-Final_technical_aspects$parameter_name[343:378] = "nutrient availability"
-Final_technical_aspects$parameter_name[476:501] = "pollutant concentration"
+                                                             "deployment","Functional.information")
+Final_technical_aspects$parameter_name[3:13]  = "acari"
+Final_technical_aspects$parameter_name[62:65] = "ants"
+Final_technical_aspects$parameter_name[76:78] = "bacteria"
+Final_technical_aspects$parameter_name[93:96] = "calcium : magnesium ratio"
+Final_technical_aspects$parameter_name[105:118] = "cation exchange capacity"
+Final_technical_aspects$parameter_name[141:146] = "collembola"
+# Final_technical_aspects$parameter_name[212] = "fungi"
+Final_technical_aspects$parameter_name[439:447] = "nematodes"
+Final_technical_aspects$parameter_name[491:526] = "nutrient availability"
+Final_technical_aspects$parameter_name[604:610] = "nutrient availability"
+Final_technical_aspects$parameter_name[659:686] = "pollutant concentration"
+Final_technical_aspects$parameter_name[734:735] = "protozoa"
 Final_technical_aspects = Final_technical_aspects %>%
   mutate(across(where(is.character), tolower))
 colnames(Final_technical_aspects)[2] = "Parameter"
@@ -1233,7 +1234,9 @@ technical_criteria_CR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_CR = technical_criteria_CR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_CR_updated.csv", row.names = FALSE)
+technical_criteria_CR = technical_criteria_CR %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+
+write.csv(technical_criteria_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_CR_new.csv", row.names = FALSE)
 
 # Water Regulation
 common_params = semi_join(ranking_parameters_WR, Final_technical_aspects, by = "Parameter")
@@ -1242,7 +1245,9 @@ technical_criteria_WR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_WR = technical_criteria_WR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_WR_updated.csv", row.names = FALSE)
+technical_criteria_WR = technical_criteria_WR %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+
+write.csv(technical_criteria_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_WR_new.csv", row.names = FALSE)
 
 # Habitat Provision
 common_params = semi_join(ranking_parameters_HP, Final_technical_aspects, by = "Parameter")
@@ -1251,7 +1256,9 @@ technical_criteria_HP = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_HP = technical_criteria_HP %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-write.csv(technical_criteria_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_HP_updated.csv", row.names = FALSE)
+technical_criteria_HP = technical_criteria_HP %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+
+write.csv(technical_criteria_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_HP_new.csv", row.names = FALSE)
 
 # Nutrient Cycling
 common_params = semi_join(ranking_parameters_NC, Final_technical_aspects, by = "Parameter")
@@ -1260,4 +1267,7 @@ technical_criteria_NC = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_NC = technical_criteria_NC %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
+technical_criteria_NC = technical_criteria_NC %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+
 write.csv(technical_criteria_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_NC_updated.csv", row.names = FALSE)
+
