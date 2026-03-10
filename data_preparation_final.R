@@ -352,9 +352,10 @@ write.csv(test_table2,"C:/Users/lucia/OneDrive - Wageningen University & Researc
 # FREQUENCY ----
 
 Cognitive_models    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Cognitive models_all.xlsx")
+colnames(Cognitive_models)[1] = "Function"
 
 # Select columns in CM 
-Cognitive_models = Cognitive_models %>% select(c("function","parameter_name","type",
+Cognitive_models = Cognitive_models %>% select(c("Function","parameter_name","type",
                                                  "Agriculture","Forest","Urban"))
 
 # Replace na values with 0 
@@ -366,23 +367,23 @@ Cognitive_models = Cognitive_models %>% filter(type %in% c("chemical", "environm
                                                            "physical", "biological"))
 
 # Total
-CM_total_FR = Cognitive_models %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_total_FR)[3] = "Total_frequency"
+CM_total_FR = Cognitive_models %>% group_by(Function,parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_total_FR)[4] = "Total_frequency"
 
 # Agriculture
 CM_Agriculture    = Cognitive_models %>% filter(Agriculture == 1)
-CM_Agriculture_FR = CM_Agriculture %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Agriculture_FR)[3] = "Frequency_Agriculture"
+CM_Agriculture_FR = CM_Agriculture %>% group_by(Function,parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Agriculture_FR)[4] = "Frequency_Agriculture"
 
 # Forest
 CM_Forest    = Cognitive_models %>% filter(Forest == 1)
-CM_Forest_FR = CM_Forest %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Forest_FR)[3] = "Frequency_Forest"
+CM_Forest_FR = CM_Forest %>% group_by(Function,parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Forest_FR)[4] = "Frequency_Forest"
 
 # Urban
 CM_Urban    = Cognitive_models %>% filter(Urban == 1)
-CM_Urban_FR = CM_Urban %>% group_by(parameter_name,type) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_Urban_FR)[3] = "Frequency_Urban"
+CM_Urban_FR = CM_Urban %>% group_by(Function,parameter_name,type) %>% summarise(n = n(), .groups = "drop")
+colnames(CM_Urban_FR)[4] = "Frequency_Urban"
 
 # Merge Frequencies
 Final_frequencies = CM_total_FR
@@ -403,6 +404,78 @@ Final_frequencies$Frequency_Urban   = CM_Urban_FR$Frequency_Urban[idx]
 # Replace na values with 0 
 Final_frequencies <- Final_frequencies %>%
   mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+
+# Condencing the frequencies per group 
+
+# Terms to search: collembola, fungi, archaea, bacteria, nematodes, acari, protozoa
+Final_frequencies_collembola = Final_frequencies %>% filter(str_detect(parameter_name, 'collembola'))
+Final_frequencies_collembola = Final_frequencies_collembola %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                          sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                          sum(Frequency_Forest, na.rm = TRUE),
+                                                                          sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_collembola) = c("Total_frequency", "Frequency_Agriculture",
+                                           "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies_fungi = Final_frequencies %>%
+  filter(str_detect(parameter_name, regex("\\bfungi\\b", ignore_case = TRUE)))
+Final_frequencies_fungi      = Final_frequencies_fungi %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                     sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                     sum(Frequency_Forest, na.rm = TRUE),
+                                                                     sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_fungi) = c("Total_frequency", "Frequency_Agriculture",
+                                      "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies_archaea    = Final_frequencies %>% filter(str_detect(parameter_name, 'archaea'))
+Final_frequencies_archaea    = Final_frequencies_archaea %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                       sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                       sum(Frequency_Forest, na.rm = TRUE),
+                                                                       sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_archaea) = c("Total_frequency", "Frequency_Agriculture",
+                                        "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies_bacteria   = Final_frequencies %>% filter(str_detect(parameter_name, 'bacteria') &
+                                                              !str_detect(parameter_name, regex("bacterial|grazers", ignore_case = TRUE)))
+Final_frequencies_bacteria   = Final_frequencies_bacteria %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                        sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                        sum(Frequency_Forest, na.rm = TRUE),
+                                                                        sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_bacteria) = c("Total_frequency", "Frequency_Agriculture",
+                                         "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies_nematodes  = Final_frequencies %>% filter(str_detect(parameter_name, 'nematodes'))
+Final_frequencies_nematodes  = Final_frequencies_nematodes %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                         sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                         sum(Frequency_Forest, na.rm = TRUE),
+                                                                         sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_nematodes) = c("Total_frequency", "Frequency_Agriculture",
+                                          "Frequency_Forest", "Frequency_Urban")
+
+
+Final_frequencies_acari      = Final_frequencies %>% filter(str_detect(parameter_name, 'acari'))
+Final_frequencies_acari      = Final_frequencies_acari %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                     sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                     sum(Frequency_Forest, na.rm = TRUE),
+                                                                     sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_acari) = c("Total_frequency", "Frequency_Agriculture",
+                                      "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies_protozoa   = Final_frequencies %>% filter(str_detect(parameter_name, 'protozoa'))
+Final_frequencies_protozoa   = Final_frequencies_protozoa %>% summarise(sum(Total_frequency, na.rm = TRUE),
+                                                                        sum(Frequency_Agriculture, na.rm = TRUE),
+                                                                        sum(Frequency_Forest, na.rm = TRUE),
+                                                                        sum(Frequency_Urban, na.rm = TRUE))
+colnames(Final_frequencies_protozoa) = c("Total_frequency", "Frequency_Agriculture",
+                                         "Frequency_Forest", "Frequency_Urban")
+
+Final_frequencies[grepl("collembola", Final_frequencies$parameter_name, ignore.case = TRUE), 4:7] = Final_frequencies_collembola
+Final_frequencies[grepl("fungi", Final_frequencies$parameter_name, ignore.case = TRUE) &
+                    !grepl("fungivor", Final_frequencies$parameter_name, ignore.case = TRUE),4:7]                 = Final_frequencies_fungi
+Final_frequencies[grepl("archaea", Final_frequencies$parameter_name, ignore.case = TRUE), 4:7]    = Final_frequencies_archaea
+Final_frequencies[grepl("bacteria", Final_frequencies$parameter_name, ignore.case = TRUE) &
+                    !grepl("bacterial|grazers", Final_frequencies$parameter_name, ignore.case = TRUE),4:7] = Final_frequencies_bacteria
+Final_frequencies[grepl("nematodes", Final_frequencies$parameter_name, ignore.case = TRUE), 4:7]  = Final_frequencies_nematodes
+Final_frequencies[grepl("acari", Final_frequencies$parameter_name, ignore.case = TRUE), 4:7]      = Final_frequencies_acari
+Final_frequencies[grepl("protozoa", Final_frequencies$parameter_name, ignore.case = TRUE), 4:7]   = Final_frequencies_protozoa
 
 # Change values according to Marie's paper
 Final_frequencies = Final_frequencies %>% mutate(Frequency_Total = case_when(Total_frequency == 0 ~ 0,
@@ -429,10 +502,10 @@ Final_frequencies = Final_frequencies %>% mutate(Frequency_Urb = case_when(Frequ
                                                                            Frequency_Urban >= as.numeric(quantile(Final_frequencies$Frequency_Urban, 0.90)) ~ 4,
                                                                            Frequency_Urban < as.numeric(quantile(Final_frequencies$Frequency_Urban, 0.90)) ~ 3))
 
-Final_frequencies = Final_frequencies %>% select(parameter_name,type,Frequency_Total,Frequency_Agr,
+Final_frequencies = Final_frequencies %>% select(Function,parameter_name,type,Frequency_Total,Frequency_Agr,
                                                  Frequency_For,Frequency_Urb)
 
-write.csv(Final_frequencies,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_updated.csv", row.names = FALSE)
+write.csv(Final_frequencies,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_frequencies_updated_2.csv", row.names = FALSE)
 
 # Inclusion for processes that have indicators
 
@@ -621,16 +694,19 @@ Cognitive_models = Cognitive_models %>%
     "senescence and debris formation" = "senescense/debris formation" # correcting the typo
   )))
 
+colnames(Cognitive_models)[1] = "Function"
+
 # Select columns in CM 
-Cognitive_models = Cognitive_models %>% select(c("function","process","type",
+Cognitive_models = Cognitive_models %>% select(c("Function","process","type",
                                                  "Agriculture","Forest","Urban"))
 # Reduce dataset
 Cognitive_models = Cognitive_models %>% filter(type %in% c("process"))
 
 # Total
-CM_total_FR = Cognitive_models %>% group_by(process) %>% summarise(n = n(), .groups = "drop")
-colnames(CM_total_FR)[2] = "Total_frequency"
-colnames(CM_total_FR)[1] = "name"
+CM_total_FR = Cognitive_models %>% group_by(Function,process) %>% 
+  summarise(n = n(), .groups = "drop")
+colnames(CM_total_FR)[3] = "Total_frequency"
+colnames(CM_total_FR)[2] = "name"
 
 # Merge
 process_scores_merge.2 = merge(process_scores_merge.1,CM_total_FR, by= "name")
