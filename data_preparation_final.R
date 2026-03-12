@@ -715,10 +715,8 @@ write.csv(process_scores_merge.2,"C:/Users/lucia/OneDrive - Wageningen Universit
 # TECHNICAL ASPECTS ----
 
 # Call data 
-scoring_criteria = read_excel("data/Method list assessment file.xlsx",
-                              sheet = "Scoring Criteria", range = "B22:M53")
-method_list    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Method list assessment file_v2.xlsx",
-                            sheet = "Method list", range = "A2:AR1019")
+method_list    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/Method list assessment file_v3.xlsx",
+                            sheet = "Method list", range = "A2:AR961")
 # Test for Applicability & Discrimination 
 
 # Agriculture
@@ -778,6 +776,7 @@ final_list       = final_list %>% mutate(sample_collection_4 = case_when(`Does t
 final_list       = final_list %>% mutate(storage.amount.archivability_1 = case_when(`How many grams/kilograms do we need for the method?` == "Small mass (<1 kg or < 2 L)" ~ 2,
                                                                                     `How many grams/kilograms do we need for the method?` == "Very small mass (<100g or < 0.5 L)" ~ 3,
                                                                                     `How many grams/kilograms do we need for the method?` == "Large mass (>1 kg or > 2 L)" ~ 1,
+                                                                                    `How many grams/kilograms do we need for the method?` == "No soil is needed" ~ 4,
                                                                                     `How many grams/kilograms do we need for the method?` == NA ~ NA))
 
 # Given appropriate preservation, how soon do post-sampling measures need to be applied? == storage.amount.archivability_2
@@ -785,12 +784,16 @@ final_list       = final_list %>% mutate(storage.amount.archivability_2 = case_w
                                                                                     `How much time can we store the sample before starting with the analysis?` == "Within 6 months to year" ~ 3,
                                                                                     `How much time can we store the sample before starting with the analysis?` == "Within 1 month" ~ 2,
                                                                                     `How much time can we store the sample before starting with the analysis?` == "Not possible" ~ 0,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == "No soil is needed" ~ 4,
+                                                                                    `How much time can we store the sample before starting with the analysis?` == "Achiving not needed" ~ 4,
                                                                                     `How much time can we store the sample before starting with the analysis?` == NA ~ NA))
 
 # In what form is it possible to archive soil samples (i.e. over decades) in order to accurately re-determine these properties? == storage.amount.archivability_3
 final_list       = final_list %>% mutate(storage.amount.archivability_3 = case_when(`How long can we store the sample and still get reasonable results?` == "Archivable as fixated or extracted sample or as frozen soil" ~ 1,
                                                                                     `How long can we store the sample and still get reasonable results?` == "Archivable as dried soil sample" ~ 2,
                                                                                     `How long can we store the sample and still get reasonable results?` == "Not archivable" ~ 0,
+                                                                                    `How long can we store the sample and still get reasonable results?` == "Achiving not needed" ~ 3,
+                                                                                    `How long can we store the sample and still get reasonable results?` == "No preprocessing needed" ~ 3,
                                                                                     `How long can we store the sample and still get reasonable results?` == NA ~ NA))
 
 # Duration 
@@ -799,8 +802,8 @@ final_list       = final_list %>% mutate(storage.amount.archivability_3 = case_w
 final_list       = final_list %>% mutate(duration = case_when(`How long does it take to process the sample?` == "In adition, extractions also needed" ~ 1,
                                                               `How long does it take to process the sample?` == "soil drying and/or sieving additionally needed" ~ 2,
                                                               `How long does it take to process the sample?` == "only coarse debris removal or homogeneization needed" ~ 3,
-                                                              `How long does it take to process the sample?` == "In adition, extractions and/or an incubation period also needed" ~ 4,
-                                                              `How long does it take to process the sample?` == "No preprocessing needed" ~ 0,
+                                                              `How long does it take to process the sample?` == "In adition, extractions and/or an incubation period also needed" ~ 1,
+                                                              `How long does it take to process the sample?` == "No preprocessing needed" ~ 4,
                                                               `How long does it take to process the sample?` == "Archivable as fixated or extracted sample or as frozen soil" ~ NA,
                                                               `How long does it take to process the sample?` == NA ~ NA))
 
@@ -952,9 +955,7 @@ final_list       = final_list %>% mutate(deployment = case_when(`Is this method 
                                                                 `Is this method well-established or still under development?` == "Developed for experimental use" ~ 1,
                                                                 `Is this method well-established or still under development?` == "Fully developed for routine use" ~ 2,
                                                                 `Is this method well-established or still under development?` == NA ~ NA))
-# Replace na values with 0 
-final_list <- final_list %>%
-  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+
 write.csv(final_list,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/Final_technical_aspects_updated.csv", row.names = FALSE)
 
 # LOGICAL SIEVE 2.0 ----
@@ -1186,7 +1187,141 @@ Pertinence_total_WR = as.data.frame(rbind(Pertinece_1_WR,Pertinece_proc_WR))
 
 write.csv(Pertinence_total_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_new.csv", row.names = FALSE)
 
-# Selection of parameters ----
+# Select the high scoring parameters ----
+
+# Climate Regulation ----
+
+ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_new.csv")
+
+n_list = 5 # Number of top-ranking indicators
+
+top5_CR = ranking_parameters_CR %>%
+  pivot_longer(
+    cols = ends_with("pertinence"),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  group_by(type, metric) %>%
+  slice_max(value, n = n_list, with_ties = FALSE) %>%
+  arrange(type, metric, desc(value))
+
+top5_CR = top5_CR %>%
+  ungroup() %>%                             # <- important
+  group_by(type, metric) %>%               # re-group explicitly
+  mutate(rank = row_number()) %>%          # no `.by` here
+  ungroup() %>%
+  select(type, metric, rank,
+         Parameter = Parameter,
+         value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = c(Parameter, value),
+    names_glue = "{metric}_{.value}"
+  ) %>%
+  arrange(type, rank)
+
+write.csv(top5_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/top5_CR_parameters.csv", row.names = FALSE)
+
+# Habitat Provision ----
+
+ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_new.csv")
+
+n_list = 5 # Number of top-ranking indicators
+
+top5_HP = ranking_parameters_HP %>%
+  pivot_longer(
+    cols = ends_with("pertinence"),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  group_by(type, metric) %>%
+  slice_max(value, n = n_list, with_ties = FALSE) %>%
+  arrange(type, metric, desc(value))
+
+top5_HP = top5_HP %>%
+  ungroup() %>%                             # <- important
+  group_by(type, metric) %>%               # re-group explicitly
+  mutate(rank = row_number()) %>%          # no `.by` here
+  ungroup() %>%
+  select(type, metric, rank,
+         Parameter = Parameter,
+         value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = c(Parameter, value),
+    names_glue = "{metric}_{.value}"
+  ) %>%
+  arrange(type, rank)
+
+write.csv(top5_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/top5_HP_parameters.csv", row.names = FALSE)
+
+# Nutrient Cycling ----
+
+ranking_parameters_NC = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_NC_new.csv")
+
+n_list = 5 # Number of top-ranking indicators
+
+top5_NC = ranking_parameters_NC %>%
+  pivot_longer(
+    cols = ends_with("pertinence"),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  group_by(type, metric) %>%
+  slice_max(value, n = n_list, with_ties = FALSE) %>%
+  arrange(type, metric, desc(value))
+
+top5_NC = top5_NC %>%
+  ungroup() %>%                             # <- important
+  group_by(type, metric) %>%               # re-group explicitly
+  mutate(rank = row_number()) %>%          # no `.by` here
+  ungroup() %>%
+  select(type, metric, rank,
+         Parameter = Parameter,
+         value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = c(Parameter, value),
+    names_glue = "{metric}_{.value}"
+  ) %>%
+  arrange(type, rank)
+
+write.csv(top5_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/top5_NC_parameters.csv", row.names = FALSE)
+
+# Water Regulation ----
+
+ranking_parameters_WR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_WR_new.csv")
+
+n_list = 5 # Number of top-ranking indicators
+
+top5_WR = ranking_parameters_WR %>%
+  pivot_longer(
+    cols = ends_with("pertinence"),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  group_by(type, metric) %>%
+  slice_max(value, n = n_list, with_ties = FALSE) %>%
+  arrange(type, metric, desc(value))
+
+top5_WR = top5_WR %>%
+  ungroup() %>%                             # <- important
+  group_by(type, metric) %>%               # re-group explicitly
+  mutate(rank = row_number()) %>%          # no `.by` here
+  ungroup() %>%
+  select(type, metric, rank,
+         Parameter = Parameter,
+         value) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = c(Parameter, value),
+    names_glue = "{metric}_{.value}"
+  ) %>%
+  arrange(type, rank)
+
+write.csv(top5_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/top5_WR_parameters.csv", row.names = FALSE)
+
+# Selection of parameters - Pareto optimization ----
 
 ranking_parameters_CR = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_CR_new.csv")
 ranking_parameters_HP = read.csv("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/ranking_parameters_HP_new.csv")
@@ -1207,7 +1342,7 @@ idx_HP = match(all_keys, key_HP)
 idx_NC = match(all_keys, key_NC)
 idx_CR = match(all_keys, key_CR)
 
-# TOTAL PERTINENCE PLOT ----
+# TOTAL PERTINENCE PLOT 
 
 Mixed_pertinence = data.frame(all_keys,
   WR = ranking_parameters_WR$total_pertinence[idx_WR],
@@ -1242,7 +1377,7 @@ sky1 %>%
        x = "Criteria",
        y = "Normalized Score")
 
-# AGRICULTURAL PERTINENCE PLOT ----
+# AGRICULTURAL PERTINENCE PLOT 
 
 Mixed_pertinence_agriculture = data.frame(all_keys,
                                           WR = ranking_parameters_WR$Agricultural_pertinence[idx_WR],
@@ -1263,6 +1398,28 @@ idx = match(sky1$Parameter,Total$Parameter)
 sky1$Type = Total$type[idx]
 
 write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_AGRICULTURE_updated.csv", row.names = FALSE)
+
+# ATLANTIC CENTRAL PERTINENCE PLOT 
+
+Mixed_pertinence_ATC = data.frame(all_keys,
+                                  WR = ranking_parameters_WR$ATC_pertinence[idx_WR],
+                                  HP = ranking_parameters_HP$ATC_pertinence[idx_HP],
+                                  NC = ranking_parameters_NC$ATC_pertinence[idx_NC],
+                                  CR = ranking_parameters_CR$ATC_pertinence[idx_CR]
+)
+
+# Replace na values with 0 
+Mixed_pertinence_ATC = Mixed_pertinence_ATC %>%
+  mutate(across(where(is.numeric), ~replace(., is.na(.), 0)))
+
+sky1 = psel(Mixed_pertinence_ATC, high(WR) * high(HP) * high(NC) * high(CR))
+colnames(sky1)[1] = "Parameter"
+
+# Add type of indicators
+idx = match(sky1$Parameter,Total$Parameter)
+sky1$Type = Total$type[idx]
+
+write.csv(sky1,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/optimal_parameters_all_variables_general_sieve_ATC_updated.csv", row.names = FALSE)
 
 # PERTINENCE LEVEL TWO ----
 
@@ -1294,18 +1451,7 @@ Final_technical_aspects = Final_technical_aspects %>% select("parameter_type","p
                                                              "spectral.resolution","interpretation",
                                                              "data.license","software","reproducibility",
                                                              "deployment","Functional.information")
-Final_technical_aspects$parameter_name[3:13]  = "acari"
-Final_technical_aspects$parameter_name[62:65] = "ants"
-Final_technical_aspects$parameter_name[76:78] = "bacteria"
-Final_technical_aspects$parameter_name[93:96] = "calcium : magnesium ratio"
-Final_technical_aspects$parameter_name[105:118] = "cation exchange capacity"
-Final_technical_aspects$parameter_name[141:146] = "collembola"
-# Final_technical_aspects$parameter_name[212] = "fungi"
-Final_technical_aspects$parameter_name[439:447] = "nematodes"
-Final_technical_aspects$parameter_name[491:526] = "nutrient availability"
-Final_technical_aspects$parameter_name[604:610] = "nutrient availability"
-Final_technical_aspects$parameter_name[659:686] = "pollutant concentration"
-Final_technical_aspects$parameter_name[734:735] = "protozoa"
+
 Final_technical_aspects = Final_technical_aspects %>%
   mutate(across(where(is.character), tolower))
 colnames(Final_technical_aspects)[2] = "Parameter"
@@ -1319,8 +1465,23 @@ technical_criteria_CR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_CR = technical_criteria_CR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-technical_criteria_CR = technical_criteria_CR %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+technical_criteria_CR = technical_criteria_CR %>% mutate(functional_pertinence      = Functional.information*total_pertinence/3,
+                                                         functional_pertinence_agri = Functional.information*Agricultural_pertinence/3,
+                                                         functional_pertinence_for  = Functional.information*Forest_pertinence/3,
+                                                         functional_pertinence_urb  = Functional.information*Urban_pertinence/3,
+                                                         functional_pertinence_ATC  = Functional.information*ATC_pertinence/3,
+                                                         functional_pertinence_ATN  = Functional.information*ATN_pertinence/3,
+                                                         functional_pertinence_BOR  = Functional.information*BOR_pertinence/3,
+                                                         functional_pertinence_CON  = Functional.information*CON_pertinence/3,
+                                                         functional_pertinence_LUS  = Functional.information*LUS_pertinence/3,
+                                                         functional_pertinence_MDN  = Functional.information*MDN_pertinence/3,
+                                                         functional_pertinence_MDM  = Functional.information*MDM_pertinence/3,
+                                                         functional_pertinence_MDS  = Functional.information*MDS_pertinence/3,
+                                                         functional_pertinence_NEM  = Functional.information*NEM_pertinence/3,
+                                                         functional_pertinence_PAN  = Functional.information*PAN_pertinence/3)
 
+technical_criteria_CR = technical_criteria_CR %>% select(!(Functional.information:PAN_pertinence))
+  
 write.csv(technical_criteria_CR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_CR_new.csv", row.names = FALSE)
 
 # Water Regulation
@@ -1330,8 +1491,22 @@ technical_criteria_WR = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_WR = technical_criteria_WR %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-technical_criteria_WR = technical_criteria_WR %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+technical_criteria_WR = technical_criteria_WR %>% mutate(functional_pertinence      = Functional.information*total_pertinence/3,
+                                                         functional_pertinence_agri = Functional.information*Agricultural_pertinence/3,
+                                                         functional_pertinence_for  = Functional.information*Forest_pertinence/3,
+                                                         functional_pertinence_urb  = Functional.information*Urban_pertinence/3,
+                                                         functional_pertinence_ATC  = Functional.information*ATC_pertinence/3,
+                                                         functional_pertinence_ATN  = Functional.information*ATN_pertinence/3,
+                                                         functional_pertinence_BOR  = Functional.information*BOR_pertinence/3,
+                                                         functional_pertinence_CON  = Functional.information*CON_pertinence/3,
+                                                         functional_pertinence_LUS  = Functional.information*LUS_pertinence/3,
+                                                         functional_pertinence_MDN  = Functional.information*MDN_pertinence/3,
+                                                         functional_pertinence_MDM  = Functional.information*MDM_pertinence/3,
+                                                         functional_pertinence_MDS  = Functional.information*MDS_pertinence/3,
+                                                         functional_pertinence_NEM  = Functional.information*NEM_pertinence/3,
+                                                         functional_pertinence_PAN  = Functional.information*PAN_pertinence/3)
 
+technical_criteria_WR = technical_criteria_WR %>% select(!(Functional.information:PAN_pertinence))
 write.csv(technical_criteria_WR,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_WR_new.csv", row.names = FALSE)
 
 # Habitat Provision
@@ -1341,8 +1516,22 @@ technical_criteria_HP = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_HP = technical_criteria_HP %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-technical_criteria_HP = technical_criteria_HP %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+technical_criteria_HP = technical_criteria_HP %>% mutate(functional_pertinence      = Functional.information*total_pertinence/3,
+                                                         functional_pertinence_agri = Functional.information*Agricultural_pertinence/3,
+                                                         functional_pertinence_for  = Functional.information*Forest_pertinence/3,
+                                                         functional_pertinence_urb  = Functional.information*Urban_pertinence/3,
+                                                         functional_pertinence_ATC  = Functional.information*ATC_pertinence/3,
+                                                         functional_pertinence_ATN  = Functional.information*ATN_pertinence/3,
+                                                         functional_pertinence_BOR  = Functional.information*BOR_pertinence/3,
+                                                         functional_pertinence_CON  = Functional.information*CON_pertinence/3,
+                                                         functional_pertinence_LUS  = Functional.information*LUS_pertinence/3,
+                                                         functional_pertinence_MDN  = Functional.information*MDN_pertinence/3,
+                                                         functional_pertinence_MDM  = Functional.information*MDM_pertinence/3,
+                                                         functional_pertinence_MDS  = Functional.information*MDS_pertinence/3,
+                                                         functional_pertinence_NEM  = Functional.information*NEM_pertinence/3,
+                                                         functional_pertinence_PAN  = Functional.information*PAN_pertinence/3)
 
+technical_criteria_HP = technical_criteria_HP %>% select(!(Functional.information:PAN_pertinence))
 write.csv(technical_criteria_HP,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_HP_new.csv", row.names = FALSE)
 
 # Nutrient Cycling
@@ -1352,7 +1541,21 @@ technical_criteria_NC = Final_technical_aspects %>%
   left_join(common_params, by = "Parameter")     # attach pertinence
 technical_criteria_NC = technical_criteria_NC %>%
   mutate(across(11:27, ~ .x / max(.x, na.rm = TRUE)))
-technical_criteria_NC = technical_criteria_NC %>% mutate(functional_pertinence = Functional.information*total_pertinence/3)
+technical_criteria_NC = technical_criteria_NC %>% mutate(functional_pertinence      = Functional.information*total_pertinence/3,
+                                                         functional_pertinence_agri = Functional.information*Agricultural_pertinence/3,
+                                                         functional_pertinence_for  = Functional.information*Forest_pertinence/3,
+                                                         functional_pertinence_urb  = Functional.information*Urban_pertinence/3,
+                                                         functional_pertinence_ATC  = Functional.information*ATC_pertinence/3,
+                                                         functional_pertinence_ATN  = Functional.information*ATN_pertinence/3,
+                                                         functional_pertinence_BOR  = Functional.information*BOR_pertinence/3,
+                                                         functional_pertinence_CON  = Functional.information*CON_pertinence/3,
+                                                         functional_pertinence_LUS  = Functional.information*LUS_pertinence/3,
+                                                         functional_pertinence_MDN  = Functional.information*MDN_pertinence/3,
+                                                         functional_pertinence_MDM  = Functional.information*MDM_pertinence/3,
+                                                         functional_pertinence_MDS  = Functional.information*MDS_pertinence/3,
+                                                         functional_pertinence_NEM  = Functional.information*NEM_pertinence/3,
+                                                         functional_pertinence_PAN  = Functional.information*PAN_pertinence/3)
 
+technical_criteria_NC = technical_criteria_NC %>% select(!(Functional.information:PAN_pertinence))
 write.csv(technical_criteria_NC,"C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/outputs/technical_criteria_NC_updated.csv", row.names = FALSE)
 
