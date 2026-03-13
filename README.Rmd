@@ -1,101 +1,34 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
+Logical Sieve - Benchmarks 
 
-## Biosis 2.0
-
-This tool expands on the work of Zwetsloot et al., 2021 to incorporate
+This tool expands on the work of Zwetsloot et al. (2021) to incorporate
 the following changes:
 
-1.  Ranking of physicochemical and environmental parameters (in
-    progress).
-2.  Effects of scale on the ranking of the parameters (example is
-    implemented).
-3.  Effects of the stakeholder's perspective on the importance of soil
-    functions (example is implemented).
-4.  Different land uses (forest and urban) (in progress).
+1.  Ranking of biological, chemical, physical, and environmental parameters and processes related to soil health.
+2.  Different land uses (agriculture, forest, and urban).
+3. Ten climate zones (Mediterranean south (MDS), Mediterranean north (MDN), Mediterranean mountains (MDM), Lusitanian (LUS), Pannonian (PAN), Atlantic central (ATC), Continental (CON), Atlantic north (ATN), Nemoral (NEM), Boreal (BOR)). 
+4. Two-tier pertinence evaluation: Tier-1 to select context-dependent soil health parameters and processes; Tier-2 to select context-dependent soil health indicators and methods based on extended technical criteria.
 
-### Creators:
-
--   M.J. Zwetsloot, Soil biology Group, Wageningen University,
-    Wageningen, The Netherlands
-
--   G. Bongiorno, Soil biology Group, Wageningen University, Wageningen,
-    The Netherlands
-
-### Contributors:
-
--   J.M. Barel, Laboratoire Ecologie Fonctionnelle et Environnement,
-    Université de Toulouse, CNRS, Toulouse, France
-
--   D.P. Di Lonardo, Soil biology Group, Wageningen University,
-    Wageningen, The Netherlands
-
--   R.E. Creamer, Soil biology Group, Wageningen University, Wageningen,
-    The Netherlands
+Developers
 
 -   L. Chavez Rodriguez, Soil biology Group, Wageningen University,
     Wageningen, The Netherlands
-
 -   C. Vazquez Martin, Soil biology Group, Wageningen University,
+    Wageningen, The Netherland
+
+Contributors
+
+-   M.J. Zwetsloot, Soil biology Group, Wageningen University,
+    Wageningen, The Netherlands
+-   G. Bongiorno, Soil biology Group, Wageningen University, Wageningen,
+    The Netherlands
+-   R.E. Creamer, Soil biology Group, Wageningen University, Wageningen,
+    The Netherlands
+-   D.P. Di Lonardo, Soil biology Group, Wageningen University,
     Wageningen, The Netherlands
 
-### Related publication:
+Related publication:
 
-Zwetsloot et al., 2021, Designing a flexible method selection tool for
-the inclusion of soil biology measurements in the assessment of soil
-multi-functionality (in press)
-
-This dataset contains the following files:
-
--   Original code: BIOSIS_method_selection_tool_March2021.R
-
--   Modified code: test_file.R
-
--   File to translate the data from the cognitive models to the desired
-    format: data_preparation.R
-
--   Data to run the original tool: data folder
-
-    -   csv file with scoring of the soil biological methods that is
-        used with the R script: 'Supplementary
-        information_Methods_scores'.
-
-    -   csv file with weighting factors: 'Weighting_factors'. In this
-        document the weighting factors are all set to 1. In the R script
-        'BIOSIS_method_selection_tool_March2021' is explained that users
-        can adjust these weighting factors manually to indicate the
-        importance of different technical criteria to their assessment
-        program.
-
-    -   excel file with methods references: 'Supplementary information
-        Methods references'. These references were used to give the
-        scores present in the file 'Supplementary
-        information_Methods_scores'
-
-    -   csv file with explanation of the variables contained in the
-        files: 'Supplementary information_Methods_scores' and
-        'Weighting_factors'.
-
--   Data for the current version of the Biosis tool is temporarily
-    stored in Google Drive.
-
-### Explanation of variables:
-
-The variables used in the files 'Supplementary
-information_Methods_scores' and 'Weighting_factors' are explained in the
-csv file 'Explanation_variables'.
-
-### Methods, materials, and software:
-
-For a complete description of the methods used to collect and generate
-the data and the R script we refer to the publication:
-
-Zwetsloot et al., 2021. 'Designing a flexible method selection tool for
-the inclusion of soil biology measurements in the assessment of soil
-multi-functionality'.
+Zwetsloot, M. J., Bongiorno, G., Barel, J. M., Di Lonardo, D. P., & Creamer, R. E. (2022). A flexible selection tool for the inclusion of soil biology methods in the assessment of soil multifunctionality. Soil Biology and Biochemistry, 166, 108514. https://doi.org/10.1016/j.soilbio.2021.108514
 
 *This dataset is published under the CC BY (Attribution) license. This
 license allows reusers to distribute, remix, adapt, and build upon the
