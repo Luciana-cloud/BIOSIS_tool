@@ -436,6 +436,8 @@ ggsave(
 # Test Heatmap ----
 
 process_scores      = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/process_scores.xlsx")
+
+# Climate regulation ----
 process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,Full_medians,
                                                 Agr_medians,Agr_ATC_medians,Agr__BOR_medians,
                                                 Agr__CON_medians,Agr__MDN_medians,Agr__MDD_medians,
@@ -454,8 +456,10 @@ process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,
 # parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
 
 # Plot
+
 test.2 = as.matrix(process_heatmap[,5:30])
 rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
 
 function_colors = c(
   "Decomposition" = "#525252",
@@ -468,6 +472,9 @@ col_fun = colorRamp2(
   breaks = c(0, 2, 4),
   colors = c("blue", "yellow", "red")
 )
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/CR_heatmap.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
 
 Heatmap(
   test.2,
@@ -482,8 +489,185 @@ Heatmap(
   right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
                                    col = list(Sub_function = function_colors)),
   cluster_columns = FALSE,
-  cluster_rows = FALSE
+  cluster_rows = TRUE
 )
 
+dev.off()
 
+# Water Regulation ----
+process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,Full_medians,
+                                                Agr_medians,Agr_ATC_medians,Agr__BOR_medians,
+                                                Agr__CON_medians,Agr__MDN_medians,Agr__MDD_medians,
+                                                Agr__PAN_medians,
+                                                For_medians,For__ATC_medians,
+                                                For__BOR_medians,For__CON_medians,
+                                                For__MDN_medians,For__MDD_medians,
+                                                For__PAN_medians,
+                                                Urb_medians,Urb__ATC_medians,
+                                                Urb__BOR_medians,Urb__CON_medians,
+                                                Urb__MDN_medians,
+                                                ATC_medians,BOR_medians,CON_medians,
+                                                MDN_medians,MDS_medians,PAN_medians
+) %>% 
+  filter(level == "process" & Function == "Water regulation and filtration")
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
 
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:30])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
+
+function_colors = c(
+  "Water storage" = "#525252",
+  "Filtering capacity" = "#4292c6"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 2, 4),
+  colors = c("blue", "yellow", "red")
+)
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/WR_heatmap.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = TRUE
+)
+
+dev.off()
+
+# Habitat Provision ----
+process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,Full_medians,
+                                                Agr_medians,Agr_ATC_medians,Agr__BOR_medians,
+                                                Agr__CON_medians,Agr__MDN_medians,Agr__MDD_medians,
+                                                Agr__PAN_medians,
+                                                For_medians,For__ATC_medians,
+                                                For__BOR_medians,For__CON_medians,
+                                                For__MDN_medians,For__MDD_medians,
+                                                For__PAN_medians,
+                                                Urb_medians,Urb__ATC_medians,
+                                                Urb__BOR_medians,Urb__CON_medians,
+                                                Urb__MDN_medians,
+                                                ATC_medians,BOR_medians,CON_medians,
+                                                MDN_medians,MDS_medians,PAN_medians
+) %>% 
+  filter(level == "process" & Function == "Habitat provision")
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+clean_strings <- function(x) {
+  if(is.character(x)) {
+    x <- gsub("\u00A0", " ", x) # Fix non-breaking spaces
+    x <- trimws(x)               # Remove accidental edge spaces
+  }
+  return(x)
+}
+
+# Apply to your whole data frame
+process_heatmap <- as.data.frame(lapply(process_heatmap, clean_strings))
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:30])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
+
+function_colors = c(
+  "Biotic interactions" = "#525252",
+  "Habitat suitability and stability" = "#238b45",
+  "Spatial availability and complexity" = "#ae017e"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 2, 4),
+  colors = c("blue", "yellow", "red")
+)
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/HP_heatmap.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = TRUE
+)
+
+dev.off()
+
+# Nutrient cycling ----
+process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,Full_medians,
+                                                Agr_medians,Agr_ATC_medians,Agr__BOR_medians,
+                                                Agr__CON_medians,Agr__MDN_medians,Agr__MDD_medians,
+                                                Agr__PAN_medians,
+                                                For_medians,For__ATC_medians,
+                                                For__BOR_medians,For__CON_medians,
+                                                For__MDN_medians,For__MDD_medians,
+                                                For__PAN_medians,
+                                                Urb_medians,Urb__ATC_medians,
+                                                Urb__BOR_medians,Urb__CON_medians,
+                                                Urb__MDN_medians,
+                                                ATC_medians,BOR_medians,CON_medians,
+                                                MDN_medians,MDS_medians,PAN_medians
+) %>% 
+  filter(level == "process" & Function == "Nutrient cycling")
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:30])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
+
+function_colors = c(
+  "Nutrient supply" = "#525252",
+  "Organic matter transformation" = "#238b45",
+  "Nutrient acquisition" = "#ae017e"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 2, 4),
+  colors = c("blue", "yellow", "red")
+)
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/NC_heatmap.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = TRUE
+)
+
+dev.off()
