@@ -12,6 +12,8 @@ library(ggalluvial)
 library(readxl)
 library(ComplexHeatmap)
 library(circlize)
+library(ggpubr)
+library(grid)
 
 # Climate Regulation ----
 
@@ -476,7 +478,7 @@ col_fun = colorRamp2(
 pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/CR_heatmap.pdf", 
     width = 15*0.5, height = 7.5*0.5)
 
-Heatmap(
+CR = Heatmap(
   test.2,
   col = col_fun,
   name = "Median",
@@ -531,7 +533,7 @@ col_fun = colorRamp2(
 pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/WR_heatmap.pdf", 
     width = 15*0.5, height = 7.5*0.5)
 
-Heatmap(
+WR = Heatmap(
   test.2,
   col = col_fun,
   name = "Median",
@@ -567,7 +569,7 @@ process_heatmap     = process_scores %>% select(Function,Subfunction,level,name,
   filter(level == "process" & Function == "Habitat provision")
 # parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
 
-clean_strings <- function(x) {
+clean_strings = function(x) {
   if(is.character(x)) {
     x <- gsub("\u00A0", " ", x) # Fix non-breaking spaces
     x <- trimws(x)               # Remove accidental edge spaces
@@ -598,7 +600,7 @@ col_fun = colorRamp2(
 pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/HP_heatmap.pdf", 
     width = 15*0.5, height = 7.5*0.5)
 
-Heatmap(
+HP = Heatmap(
   test.2,
   col = col_fun,
   name = "Median",
@@ -654,7 +656,7 @@ col_fun = colorRamp2(
 pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/NC_heatmap.pdf", 
     width = 15*0.5, height = 7.5*0.5)
 
-Heatmap(
+NC = Heatmap(
   test.2,
   col = col_fun,
   name = "Median",
@@ -668,6 +670,302 @@ Heatmap(
                                    col = list(Sub_function = function_colors)),
   cluster_columns = FALSE,
   cluster_rows = TRUE
+)
+
+dev.off()
+
+# Uncertainty plots ----
+process_scores1 = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/process_scores1.xlsx", 
+                             sheet = "sheet 1")
+# Climate regulation ----
+
+process_heatmap     = process_scores1 %>% select(c(Function,Subfunction,level,name,Full_ste,
+                                                   Agr_ste,Agr__ATC_ste,Agr_BOR_ste,
+                                                   Agr_CON_ste,Agr_MDN_ste,
+                                                   Agr_MDS_ste,Agr_PAN_ste,
+                                                   For_ste,For_ATC_ste,For_BOR_ste,
+                                                   Agr_CON_ste,For_MDN_ste,
+                                                   For_MDS_ste,For_PAN_ste,
+                                                   Urb_ste,Urb__ATC_ste,Urb_BOR_ste,
+                                                   Urb_CON_ste,Urb_MDN_ste,ACT_ste,BOR_ste,
+                                                   CON_ste,MDN_ste,MDS_ste,PAN_ste)) %>% 
+  filter(level == "process" & Function == "Climate regulation")
+
+process_heatmap[,5:29] <- sapply( process_heatmap[,5:29], as.numeric )
+
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:29])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?ste?$", "", colnames(test.2))
+
+function_colors = c(
+  "Decomposition" = "#525252",
+  "Organic matter transfer" = "#238b45",
+  "Organic matter stabilisation" = "#ae017e",
+  "Biochemical transformations" = "#4292c6"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 0.5, 1.0),
+  colors = c("red", "yellow", "blue")
+)
+
+desired_order <- c(
+  "Soil respiration",
+  "Aggregate stabilization",
+  "Aggregate formation",
+  "Nitrification denitrification",
+  "Soil erosion sedimentation",
+  "Soil erosion detachment",
+  "Chemical protection",
+  "Fragmentation",
+  "Bioturbation",
+  "Extracellular depolymerization",
+  "Organic matter leaching",
+  "Mineral precipitation and dissolution",
+  "Ammonia volatilization",
+  "Litter photodegradation",
+  "Methanotrophy",
+  "Methanogenesis"
+)
+
+test.2 <- test.2[match(desired_order,row.names(test.2)),]
+process_heatmap = process_heatmap[match(desired_order,process_heatmap$name),]
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/CR_heatmap_uncertainty.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = FALSE
+)
+
+dev.off()
+
+# Water Regulation ----
+process_heatmap     = process_scores1 %>% select(c(Function,Subfunction,level,name,Full_ste,
+                                                   Agr_ste,Agr__ATC_ste,Agr_BOR_ste,
+                                                   Agr_CON_ste,Agr_MDN_ste,
+                                                   Agr_MDS_ste,Agr_PAN_ste,
+                                                   For_ste,For_ATC_ste,For_BOR_ste,
+                                                   Agr_CON_ste,For_MDN_ste,
+                                                   For_MDS_ste,For_PAN_ste,
+                                                   Urb_ste,Urb__ATC_ste,Urb_BOR_ste,
+                                                   Urb_CON_ste,Urb_MDN_ste,ACT_ste,BOR_ste,
+                                                   CON_ste,MDN_ste,MDS_ste,PAN_ste)) %>% 
+  filter(level == "process" & Function == "Water regulation and filtration")
+
+process_heatmap[,5:29] <- sapply( process_heatmap[,5:29], as.numeric )
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:29])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
+
+function_colors = c(
+  "Water storage" = "#525252",
+  "Filtering capacity" = "#4292c6"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 0.5, 1),
+  colors = c("blue", "yellow", "red")
+)
+
+desired_order <- c(
+  "Infiltration", "Plant uptake transpiration","Ponding run off",
+  "Adsorption desorption","Drainage","Precipitation dissolution",
+  "Solute retention","Physical occlusion","Biotic degradation",
+  "Evaporation","Capillary rise","Oxidation","Reduction",
+  "Bioassimilation","Subsurface lateral flow","Volatilization"
+)
+
+test.2 <- test.2[match(desired_order,row.names(test.2)),]
+process_heatmap = process_heatmap[match(desired_order,process_heatmap$name),]
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/WR_heatmap_uncertainty.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = FALSE
+)
+
+dev.off()
+
+# Habitat Provision ----
+process_heatmap     = process_scores1 %>% select(c(Function,Subfunction,level,name,Full_ste,
+                                                   Agr_ste,Agr__ATC_ste,Agr_BOR_ste,
+                                                   Agr_CON_ste,Agr_MDN_ste,
+                                                   Agr_MDS_ste,Agr_PAN_ste,
+                                                   For_ste,For_ATC_ste,For_BOR_ste,
+                                                   Agr_CON_ste,For_MDN_ste,
+                                                   For_MDS_ste,For_PAN_ste,
+                                                   Urb_ste,Urb__ATC_ste,Urb_BOR_ste,
+                                                   Urb_CON_ste,Urb_MDN_ste,ACT_ste,BOR_ste,
+                                                   CON_ste,MDN_ste,MDS_ste,PAN_ste)) %>% 
+  filter(level == "process" & Function == "Habitat provision")
+
+process_heatmap[,5:29] <- sapply( process_heatmap[,5:29], as.numeric )
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+clean_strings = function(x) {
+  if(is.character(x)) {
+    x <- gsub("\u00A0", " ", x) # Fix non-breaking spaces
+    x <- trimws(x)               # Remove accidental edge spaces
+  }
+  return(x)
+}
+
+# Apply to your whole data frame
+process_heatmap <- as.data.frame(lapply(process_heatmap, clean_strings))
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:29])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?std?$", "", colnames(test.2))
+
+function_colors = c(
+  "Biotic interactions" = "#525252",
+  "Habitat suitability and stability" = "#238b45",
+  "Spatial availability and complexity" = "#ae017e"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 0.5, 1),
+  colors = c("red", "yellow", "blue")
+)
+
+# 1. Force your data to lowercase
+process_heatmap$Subfunction <- tolower(process_heatmap$Subfunction)
+
+# 2. Force your color names to lowercase
+names(function_colors) <- tolower(names(function_colors))
+
+# 3. Double-check the match (this should now return character(0))
+setdiff(unique(process_heatmap$Subfunction), names(function_colors))
+
+desired_order <- c(
+  "Water availability for organisms","Plants and root growth","Aggregate formation",
+  "Microbial grazing","Bioturbation","Root exudation","Plant interactions","Mineralisation",
+  "Dispersal","Senescense debris formation","Fragmentation","Pollutant degradation",
+  "Acidification","Mineral precipitation and dissolution","Predation","Parasitism",
+  "Biopolymer degradation","Extracellular depolymerization"
+)
+
+test.2 <- test.2[match(desired_order,row.names(test.2)),]
+process_heatmap = process_heatmap[match(desired_order,process_heatmap$name),]
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/HP_heatmap_uncertainty.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = FALSE
+)
+
+dev.off()
+
+# Nutrient cycling ----
+process_heatmap     = process_scores1 %>% select(c(Function,Subfunction,level,name,Full_ste,
+                                                   Agr_ste,Agr__ATC_ste,Agr_BOR_ste,
+                                                   Agr_CON_ste,Agr_MDN_ste,
+                                                   Agr_MDS_ste,Agr_PAN_ste,
+                                                   For_ste,For_ATC_ste,For_BOR_ste,
+                                                   Agr_CON_ste,For_MDN_ste,
+                                                   For_MDS_ste,For_PAN_ste,
+                                                   Urb_ste,Urb__ATC_ste,Urb_BOR_ste,
+                                                   Urb_CON_ste,Urb_MDN_ste,ACT_ste,BOR_ste,
+                                                   CON_ste,MDN_ste,MDS_ste,PAN_ste)) %>% 
+  filter(level == "process" & Function == "Nutrient cycling")
+
+process_heatmap[,5:29] <- sapply( process_heatmap[,5:29], as.numeric )
+# parameter_scores    = read_excel("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/Logical_sieve_data/parameter_scores.xlsx")
+
+# Plot
+
+test.2 = as.matrix(process_heatmap[,5:29])
+rownames(test.2) = process_heatmap$name
+colnames(test.2) <- gsub("_?medians?$", "", colnames(test.2))
+
+function_colors = c(
+  "Nutrient supply" = "#525252",
+  "Organic matter transformation" = "#238b45",
+  "Nutrient acquisition" = "#ae017e"
+)
+
+col_fun = colorRamp2(
+  breaks = c(0, 0.5, 1),
+  colors = c("red", "yellow", "blue")
+)
+
+desired_order <- c(
+  "Mineralisation","Fragmentation","Nutrient leaching","Nitrogen fixation","Mycorrhizal acquisition",
+  "Microbial immobilization","Adsorption desorption","Root foraging","Nitrification",
+  "Root exudation","Denitrification","Biopolymer degradation","Extracellular depolymerization",
+  "Soil erosionDetachment","Litter photodegradation","Precipitation dissolution","Atmospheric deposition",
+  "Ammonia volatilization"
+)
+
+test.2 <- test.2[match(desired_order,row.names(test.2)),]
+process_heatmap = process_heatmap[match(desired_order,process_heatmap$name),]
+
+pdf("C:/Users/lucia/OneDrive - Wageningen University & Research/Wageningen/Research_Projects/Benchmark/BIOSIS_tool/figures/NC_heatmap_uncertainty.pdf", 
+    width = 15*0.5, height = 7.5*0.5)
+
+Heatmap(
+  test.2,
+  col = col_fun,
+  name = "Median",
+  show_row_names = TRUE,
+  show_column_names = TRUE,
+  row_names_gp = gpar(fontsize = 6),
+  column_names_gp = gpar(fontsize = 8),
+  column_names_rot = 90,
+  show_heatmap_legend = TRUE,
+  right_annotation = rowAnnotation(Sub_function = process_heatmap$Subfunction,
+                                   col = list(Sub_function = function_colors)),
+  cluster_columns = FALSE,
+  cluster_rows = FALSE
 )
 
 dev.off()
