@@ -1,36 +1,49 @@
-Logical Sieve - Benchmarks 
+# Logical Sieve – Benchmarks
 
-This tool expands on the work of Zwetsloot et al. (2021) to incorporate
-the following changes:
+The **Logical Sieve – Benchmarks** tool extends the framework developed by *Zwetsloot et al. (2021)* to support a broader, context‑dependent selection of soil health parameters, processes, indicators, and methods.
 
-1.  Ranking of biological, chemical, physical, and environmental parameters and processes related to soil health.
-2.  Different land uses (agriculture, forest, and urban).
-3. Ten climate zones (Mediterranean south (MDS), Mediterranean north (MDN), Mediterranean mountains (MDM), Lusitanian (LUS), Pannonian (PAN), Atlantic central (ATC), Continental (CON), Atlantic north (ATN), Nemoral (NEM), Boreal (BOR)). 
-4. Two-tier pertinence evaluation: Tier-1 to select context-dependent soil health parameters and processes; Tier-2 to select context-dependent soil health indicators and methods based on extended technical criteria.
+## Overview
 
-Developers
+This repository provides an expanded version of the Logical Sieve that incorporates:
 
--   L. Chavez Rodriguez, Soil biology Group, Wageningen University,
-    Wageningen, The Netherlands
--   C. Vazquez Martin, Soil biology Group, Wageningen University,
-    Wageningen, The Netherland
+1. **Ranking of biological, chemical, physical, and environmental parameters and processes** relevant to soil health.  
+2. **Multiple land‑use contexts:** agriculture, forest, and urban systems.  
+3. **Ten European climate zones:**  
+   *Mediterranean south (MDS), Mediterranean north (MDN), Mediterranean mountains (MDM), Lusitanian (LUS), Pannonian (PAN), Atlantic central (ATC), Continental (CON), Atlantic north (ATN), Nemoral (NEM), Boreal (BOR).*  
+4. **Two‑tier pertinence evaluation:**  
+   - **Tier 1:** Selection of context‑dependent soil health parameters and processes.  
+   - **Tier 2:** Selection of soil health indicators and methods based on extended technical criteria.
 
-Contributors
+The tool is designed to support researchers, practitioners, and policymakers in identifying robust, context‑specific soil health assessment strategies.
 
--   M.J. Zwetsloot, Soil biology Group, Wageningen University,
-    Wageningen, The Netherlands
--   G. Bongiorno, Soil biology Group, Wageningen University, Wageningen,
-    The Netherlands
--   R.E. Creamer, Soil biology Group, Wageningen University, Wageningen,
-    The Netherlands
--   D.P. Di Lonardo, Soil biology Group, Wageningen University,
-    Wageningen, The Netherlands
+## Repository Structure
 
-Related publication:
+- **`Logical_Sieve_Benchmarks.R`** – Main script implementing the benchmark selection logic.  
+- **`Visualization_Logical_Sieve.R`** – Scripts for generating figures and uncertainty visualizations.  
+- **`data/`** – Curated datasets of parameters, processes, indicators, and climate/land‑use classifications.  
+- **`old_files/`** – Previous versions and archived materials.  
+- **`README.Rmd`** – Source file for generating this README.
 
-Zwetsloot, M. J., Bongiorno, G., Barel, J. M., Di Lonardo, D. P., & Creamer, R. E. (2022). A flexible selection tool for the inclusion of soil biology methods in the assessment of soil multifunctionality. Soil Biology and Biochemistry, 166, 108514. https://doi.org/10.1016/j.soilbio.2021.108514
+## Developers
 
-*This dataset is published under the CC BY (Attribution) license. This
-license allows reusers to distribute, remix, adapt, and build upon the
-material in any medium or format, so long as attribution is given to the
-creator*.
+- **L. Chávez Rodriguez**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+- **C. Vázquez Martín**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+
+## Contributors
+
+- **M.J. Zwetsloot**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+- **G. Bongiorno**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+- **R.E. Creamer**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+- **D.P. Di Lonardo**, Soil Biology Group, Wageningen University & Research, The Netherlands  
+
+## Related Publication
+
+Zwetsloot, M. J., Bongiorno, G., Barel, J. M., Di Lonardo, D. P., & Creamer, R. E. (2022).  
+**A flexible selection tool for the inclusion of soil biology methods in the assessment of soil multifunctionality.**  
+*Soil Biology and Biochemistry, 166*, 108514.  
+https://doi.org/10.1016/j.soilbio.2021.108514
+
+## License
+
+This dataset is published under the **CC BY (Attribution)** license.  
+This license allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, **as long as proper attribution is given to the creator**.
